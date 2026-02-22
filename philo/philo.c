@@ -6,11 +6,22 @@
 /*   By: impinto <impinto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 15:16:07 by impinto           #+#    #+#             */
-/*   Updated: 2026/02/21 16:16:58 by impinto          ###   ########.fr       */
+/*   Updated: 2026/02/22 15:22:06 by impinto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	print_struct(t_data *s)
+{
+	printf("n_philo = %d\n", s->n_philo);
+	printf("t_die = %d\n", s->t_die);
+	printf("t_eat = %d\n", s->t_eat);
+	printf("t_sleep = %d\n", s->t_sleep);
+	printf("must_eat = %d\n", s->must_eat);
+	printf("start_ms = %ld\n", s->start_ms);
+	printf("stop = %d\n", s->stop);
+}
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -37,9 +48,13 @@ int	parse_value(int ac, char **av)
 
 int	main(int ac, char **av)
 {
+	t_data *t_data;
 	if (ac < 5 || ac > 6)
 		return (ft_putstr_fd("Error ! Wrong Arguments... [4 - 5]\n", 2), 1);
 	if (!parse_value(ac, av))
 		return (ft_putstr_fd("Erorr ! Wrong Values... pls reconsider your output.\n",
 				2), 1);
+	t_data = fill_data_struct(ac, av);
+	print_struct(t_data);
+	free(t_data);
 }

@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 SRCS = \
 	philo.c \
-	parsing/parsing.c \
+	parsing.c \
 
 OBJS = $(SRCS:.c=.o)
 
