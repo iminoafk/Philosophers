@@ -1,11 +1,16 @@
 NAME = philo
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -pthread -g3
 
 SRCS = \
 	philo.c \
 	parsing.c \
+	init.c \
+	utils.c \
+	simulation.c \
+	monitor.c \
+	cleanup.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -13,21 +18,19 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 ### build final
-$(NAME): $(OBJS) 
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 ### compilation .c -> .o
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 ### nettoyage
 clean:
 	rm -f $(OBJS)
-	$(MAKE) -C clean
 
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C fclean
 
 re: fclean all
 

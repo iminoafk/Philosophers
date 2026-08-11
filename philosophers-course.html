@@ -1,0 +1,2637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dinner That Can Kill You — Understanding Philosophers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#FAF7F2; --color-bg-warm:#F5F0E8; --color-bg-code:#1E1E2E;
+  --color-text:#2C2A28; --color-text-secondary:#6B6560; --color-text-muted:#9E9790;
+  --color-border:#E5DFD6; --color-border-light:#EEEBE5;
+  --color-surface:#FFFFFF; --color-surface-warm:#FDF9F3;
+  --color-accent:#D94F30; --color-accent-hover:#C4432A; --color-accent-light:#FDEEE9; --color-accent-muted:#E8836C;
+  --color-success:#2D8B55; --color-success-light:#E8F5EE;
+  --color-error:#C93B3B; --color-error-light:#FDE8E8;
+  --color-info:#2A7B9B; --color-info-light:#E4F2F7;
+  --color-actor-1:#D94F30; --color-actor-2:#2A7B9B; --color-actor-3:#7B6DAA;
+  --color-actor-4:#D4A843; --color-actor-5:#2D8B55;
+  --font-display:'Bricolage Grotesque',Georgia,serif;
+  --font-body:'DM Sans',-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','Fira Code',Consolas,monospace;
+  --text-xs:.75rem; --text-sm:.875rem; --text-base:1rem; --text-lg:1.125rem;
+  --text-xl:1.25rem; --text-2xl:1.5rem; --text-3xl:1.875rem; --text-4xl:2.25rem;
+  --text-5xl:3rem; --text-6xl:3.75rem;
+  --leading-tight:1.15; --leading-snug:1.3; --leading-normal:1.6; --leading-loose:1.8;
+  --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-5:1.25rem;
+  --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem; --space-12:3rem; --space-16:4rem;
+  --space-20:5rem; --space-24:6rem;
+  --content-width:820px; --content-width-wide:1040px; --nav-height:50px;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-full:9999px;
+  --shadow-sm:0 1px 2px rgba(44,42,40,.05); --shadow-md:0 4px 12px rgba(44,42,40,.08);
+  --shadow-lg:0 8px 24px rgba(44,42,40,.1); --shadow-xl:0 16px 48px rgba(44,42,40,.12);
+  --ease-out:cubic-bezier(.16,1,.3,1); --ease-in-out:cubic-bezier(.65,0,.35,1);
+  --duration-fast:150ms; --duration-normal:300ms; --duration-slow:500ms; --stagger-delay:100ms;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body);font-size:var(--text-base);line-height:var(--leading-normal);
+  color:var(--color-text);background:var(--color-bg);
+  background-image:radial-gradient(ellipse at 20% 10%,rgba(217,79,48,.04) 0%,transparent 55%),
+                   radial-gradient(ellipse at 85% 80%,rgba(42,123,155,.035) 0%,transparent 55%);
+  background-attachment:fixed;overflow-x:hidden;
+}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:var(--radius-full)}
+::-webkit-scrollbar-thumb:hover{background:var(--color-accent-muted)}
+pre,code{white-space:pre-wrap;word-break:break-word;overflow-x:hidden}
+pre::-webkit-scrollbar,.translation-code::-webkit-scrollbar{display:none}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;color:inherit}
+
+/* ---------- NAV ---------- */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);z-index:900;
+  background:rgba(250,247,242,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--color-border-light)}
+.progress-bar{position:absolute;top:0;left:0;height:2px;width:0;background:var(--color-accent);
+  transition:width 100ms linear;z-index:2}
+.nav-inner{max-width:var(--content-width-wide);margin:0 auto;height:100%;padding:0 var(--space-6);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.nav-title{font-family:var(--font-display);font-weight:700;font-size:var(--text-sm);letter-spacing:-.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-title span{color:var(--color-accent)}
+.nav-dots{display:flex;gap:var(--space-2);align-items:center}
+.nav-dot{width:11px;height:11px;border-radius:50%;border:2px solid var(--color-text-muted);
+  background:transparent;padding:0;transition:all var(--duration-normal) var(--ease-out);position:relative}
+.nav-dot:hover{border-color:var(--color-accent);transform:scale(1.25)}
+.nav-dot.visited{background:var(--color-accent-muted);border-color:var(--color-accent-muted)}
+.nav-dot.current{border-color:var(--color-accent);background:var(--color-accent);
+  box-shadow:0 0 0 3px rgba(217,79,48,.18);transform:scale(1.2)}
+.nav-dot::after{content:attr(data-tooltip);position:absolute;top:24px;left:50%;transform:translateX(-50%);
+  background:var(--color-bg-code);color:#CDD6F4;font-size:var(--text-xs);font-family:var(--font-body);
+  padding:5px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity var(--duration-fast)}
+.nav-dot:hover::after{opacity:1}
+@media(max-width:640px){.nav-dot::after{display:none}.nav-title{font-size:var(--text-xs)}}
+
+/* ---------- MODULE ---------- */
+.module{min-height:100vh;min-height:100dvh;scroll-snap-align:start;
+  padding:var(--space-16) var(--space-6) var(--space-20);
+  padding-top:calc(var(--nav-height) + var(--space-12));position:relative}
+.module:nth-child(even){background:var(--color-bg-warm)}
+.module-content{max-width:var(--content-width);margin:0 auto}
+.module-header{margin-bottom:var(--space-12);position:relative}
+.module-number{font-family:var(--font-display);font-size:var(--text-6xl);font-weight:800;
+  color:var(--color-accent);opacity:.15;line-height:1;display:block;letter-spacing:-.04em}
+.module-title{font-family:var(--font-display);font-size:var(--text-4xl);font-weight:700;
+  line-height:var(--leading-tight);letter-spacing:-.025em;margin-top:calc(var(--space-4) * -1)}
+.module-subtitle{font-size:var(--text-lg);color:var(--color-text-secondary);margin-top:var(--space-3);
+  max-width:60ch;line-height:var(--leading-normal)}
+.module-body{display:flex;flex-direction:column;gap:var(--space-16)}
+.screen{scroll-margin-top:80px}
+.screen-heading{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:600;
+  line-height:var(--leading-snug);letter-spacing:-.015em;margin-bottom:var(--space-4)}
+.screen-heading .eyebrow{display:block;font-family:var(--font-mono);font-size:var(--text-xs);
+  text-transform:uppercase;letter-spacing:.12em;color:var(--color-accent);font-weight:500;margin-bottom:var(--space-2)}
+.screen p{max-width:62ch;color:var(--color-text-secondary);margin-bottom:var(--space-4)}
+.screen p strong{color:var(--color-text);font-weight:600}
+.lead{font-size:var(--text-lg);color:var(--color-text)!important}
+.wide{max-width:var(--content-width-wide);margin-left:auto;margin-right:auto}
+
+/* ---------- ANIMATION ---------- */
+.animate-in{opacity:0;transform:translateY(22px);
+  transition:opacity var(--duration-slow) var(--ease-out),transform var(--duration-slow) var(--ease-out)}
+.animate-in.visible{opacity:1;transform:translateY(0)}
+.stagger-children>.animate-in{transition-delay:calc(var(--stagger-index,0) * var(--stagger-delay))}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}.animate-in{opacity:1;transform:none}
+}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(217,79,48,.4)}50%{box-shadow:0 0 0 12px rgba(217,79,48,0)}}
+
+/* ---------- TERMS / TOOLTIPS ---------- */
+.term{border-bottom:1.5px dashed var(--color-accent-muted);cursor:pointer;
+  transition:color var(--duration-fast),border-color var(--duration-fast);color:inherit}
+.term:hover,.term.active{border-bottom-color:var(--color-accent);color:var(--color-accent)}
+.term-tooltip{position:fixed;background:var(--color-bg-code);color:#CDD6F4;
+  padding:var(--space-3) var(--space-4);border-radius:var(--radius-sm);font-size:var(--text-sm);
+  font-family:var(--font-body);line-height:var(--leading-normal);font-weight:400;
+  width:max(220px,min(330px,84vw));box-shadow:var(--shadow-lg);pointer-events:none;opacity:0;
+  transition:opacity var(--duration-fast);z-index:10000;text-transform:none;letter-spacing:normal}
+.term-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:var(--color-bg-code)}
+.term-tooltip.flip::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:var(--color-bg-code)}
+.term-tooltip.visible{opacity:1}
+.term-tooltip b{color:#F9E2AF;font-weight:600}
+
+/* ---------- CODE / TRANSLATION ---------- */
+.translation-block{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--radius-md);
+  overflow:hidden;box-shadow:var(--shadow-md);margin:var(--space-6) 0}
+.translation-code{background:var(--color-bg-code);color:#CDD6F4;padding:var(--space-6) var(--space-5);
+  font-family:var(--font-mono);font-size:var(--text-sm);line-height:1.75;position:relative;overflow-x:hidden}
+.translation-code pre,.translation-code code{white-space:pre-wrap;word-break:break-word;overflow-x:hidden;
+  font-family:var(--font-mono)}
+.translation-english{background:var(--color-surface-warm);padding:var(--space-6) var(--space-5);
+  font-size:var(--text-sm);line-height:1.7;border-left:3px solid var(--color-accent);position:relative}
+.translation-label{position:absolute;top:var(--space-2);right:var(--space-3);font-size:10px;
+  font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;opacity:.45}
+.translation-english .translation-label{color:var(--color-text-muted)}
+.translation-lines .tl{margin:0 0 var(--space-3);color:var(--color-text-secondary);max-width:none}
+.translation-lines .tl:last-child{margin-bottom:0}
+.translation-lines .tl strong{color:var(--color-text)}
+.translation-lines .tl::before{content:'→';color:var(--color-accent-muted);margin-right:var(--space-2);font-weight:600}
+.file-label{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);
+  margin-bottom:var(--space-2);display:flex;align-items:center;gap:var(--space-2)}
+.file-label::before{content:'📄'}
+.code-keyword{color:#CBA6F7}.code-string{color:#A6E3A1}.code-function{color:#89B4FA}
+.code-comment{color:#6C7086;font-style:italic}.code-number{color:#FAB387}.code-property{color:#F9E2AF}
+.code-operator{color:#94E2D5}.code-type{color:#F9E2AF}.code-macro{color:#F38BA8}
+code.inline{font-family:var(--font-mono);font-size:.875em;background:var(--color-accent-light);
+  color:var(--color-accent-hover);padding:2px 6px;border-radius:5px;font-weight:500}
+
+/* ---------- CALLOUTS ---------- */
+.callout{display:flex;gap:var(--space-4);padding:var(--space-5);border-radius:var(--radius-md);
+  margin:var(--space-6) 0;border-left:4px solid var(--color-accent);background:var(--color-accent-light)}
+.callout-info{border-left-color:var(--color-info);background:var(--color-info-light)}
+.callout-warning{border-left-color:var(--color-error);background:var(--color-error-light)}
+.callout-success{border-left-color:var(--color-success);background:var(--color-success-light)}
+.callout-icon{font-size:1.4rem;line-height:1.2;flex-shrink:0}
+.callout-title{display:block;font-family:var(--font-display);font-weight:700;font-size:var(--text-base);
+  margin-bottom:var(--space-1)}
+.callout-content p{margin:0;color:var(--color-text);font-size:var(--text-sm);line-height:var(--leading-normal);max-width:none}
+
+/* ---------- CARDS ---------- */
+.pattern-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--space-4);
+  margin:var(--space-6) 0}
+.pattern-card{background:var(--color-surface);border-radius:var(--radius-md);padding:var(--space-5);
+  box-shadow:var(--shadow-sm);border-top:3px solid var(--color-accent);
+  transition:transform var(--duration-normal) var(--ease-out),box-shadow var(--duration-normal)}
+.pattern-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.pattern-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;margin-bottom:var(--space-3);background:var(--color-accent-light)}
+.pattern-title{font-family:var(--font-display);font-size:var(--text-base);font-weight:600;margin-bottom:var(--space-2)}
+.pattern-desc{font-size:var(--text-sm);color:var(--color-text-secondary);line-height:var(--leading-normal);margin:0}
+
+.icon-rows{display:flex;flex-direction:column;gap:var(--space-3);margin:var(--space-6) 0}
+.icon-row{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-4);
+  background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);
+  transition:transform var(--duration-fast) var(--ease-out)}
+.icon-row:hover{transform:translateX(4px)}
+.icon-row p{margin:2px 0 0;color:var(--color-text-secondary);font-size:var(--text-sm);max-width:none}
+.icon-row strong{font-family:var(--font-display);font-size:var(--text-base)}
+.icon-circle{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;color:#fff}
+
+.step-cards{display:flex;flex-direction:column;gap:var(--space-3);margin:var(--space-6) 0}
+.step-card{display:flex;align-items:flex-start;gap:var(--space-4);padding:var(--space-4) var(--space-5);
+  background:var(--color-surface);border-radius:var(--radius-md);border-left:3px solid var(--color-accent);
+  box-shadow:var(--shadow-sm)}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--color-accent);color:#fff;font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);flex-shrink:0;
+  font-size:var(--text-sm)}
+.step-body strong{font-family:var(--font-display);font-size:var(--text-base)}
+.step-body p{margin:var(--space-1) 0 0;color:var(--color-text-secondary);font-size:var(--text-sm);max-width:none}
+
+/* ---------- FILE TREE ---------- */
+.file-tree{font-family:var(--font-mono);font-size:var(--text-sm);background:var(--color-surface);
+  border-radius:var(--radius-md);padding:var(--space-5);box-shadow:var(--shadow-sm);margin:var(--space-6) 0}
+.ft-row{display:flex;align-items:baseline;gap:var(--space-3);padding:var(--space-2) var(--space-3);
+  border-left:2px solid var(--color-border-light);margin-left:var(--space-2);flex-wrap:wrap;
+  transition:border-color var(--duration-fast),background var(--duration-fast);border-radius:0 6px 6px 0}
+.ft-row:hover{border-left-color:var(--color-accent);background:var(--color-accent-light)}
+.ft-name{font-weight:600;color:var(--color-accent);white-space:nowrap}
+.ft-name.dir{color:var(--color-info)}
+.ft-desc{color:var(--color-text-secondary);font-family:var(--font-body);font-size:var(--text-xs)}
+
+/* ---------- BADGES ---------- */
+.badge-list{display:flex;flex-direction:column;gap:var(--space-2);margin:var(--space-6) 0}
+.badge-item{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-4);
+  border:1px solid var(--color-border-light);border-radius:var(--radius-sm);background:var(--color-surface);
+  transition:border-color var(--duration-fast);flex-wrap:wrap}
+.badge-item:hover{border-color:var(--color-accent-muted)}
+.badge-code{font-family:var(--font-mono);font-size:var(--text-sm);background:var(--color-bg-code);
+  color:#CBA6F7;padding:3px 10px;border-radius:6px;white-space:normal;word-break:break-word;
+  min-width:0;max-width:100%}
+.badge-desc{font-size:var(--text-sm);color:var(--color-text-secondary)}
+
+/* ---------- FLOW STEPS ---------- */
+.flow-steps{display:flex;align-items:stretch;gap:var(--space-2);margin:var(--space-6) 0;flex-wrap:nowrap}
+.flow-step{flex:1;background:var(--color-surface);border-radius:var(--radius-md);padding:var(--space-4);
+  box-shadow:var(--shadow-sm);text-align:center;min-width:0}
+.flow-step p{margin:var(--space-2) 0 0;font-size:var(--text-xs);color:var(--color-text-secondary);max-width:none}
+.flow-step-num{width:26px;height:26px;border-radius:50%;background:var(--color-accent-light);
+  color:var(--color-accent);font-weight:700;display:flex;align-items:center;justify-content:center;
+  margin:0 auto;font-family:var(--font-display);font-size:var(--text-xs)}
+.flow-arrow{display:flex;align-items:center;color:var(--color-accent-muted);font-size:1.2rem;flex-shrink:0}
+
+/* ---------- BUTTONS ---------- */
+.btn{background:var(--color-accent);color:#fff;padding:9px 18px;border-radius:var(--radius-full);
+  font-size:var(--text-sm);font-weight:600;transition:all var(--duration-fast) var(--ease-out);
+  box-shadow:var(--shadow-sm);white-space:nowrap}
+.btn:hover{background:var(--color-accent-hover);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;color:var(--color-text-secondary);border:1.5px solid var(--color-border);
+  box-shadow:none}
+.btn-ghost:hover{background:var(--color-surface);color:var(--color-accent);border-color:var(--color-accent-muted)}
+.controls{display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;margin-top:var(--space-4)}
+.controls-status{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);
+  margin-left:auto}
+
+/* ---------- TERMINAL ---------- */
+.terminal{background:var(--color-bg-code);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);
+  overflow:hidden;margin:var(--space-6) 0}
+.terminal-bar{display:flex;align-items:center;gap:7px;padding:var(--space-3) var(--space-4);
+  background:rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.07)}
+.terminal-dot{width:11px;height:11px;border-radius:50%}
+.terminal-cmd{font-family:var(--font-mono);font-size:var(--text-xs);color:#9399B2;margin-left:var(--space-3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.terminal-body{padding:var(--space-4) var(--space-5);font-family:var(--font-mono);font-size:var(--text-sm);
+  line-height:1.75;color:#CDD6F4;height:290px;overflow-y:auto;scroll-behavior:smooth}
+.terminal-body::-webkit-scrollbar{width:5px}
+.terminal-body::-webkit-scrollbar-thumb{background:#45475A;border-radius:9px}
+.tline{display:flex;gap:var(--space-3);animation:fadeSlideUp .25s var(--ease-out);align-items:baseline}
+.tline-ms{color:#6C7086;min-width:52px;text-align:right;flex-shrink:0}
+.tline-id{font-weight:600;flex-shrink:0}
+.tline-msg{color:#BAC2DE}
+.tline.death .tline-msg{color:#F38BA8;font-weight:600}
+.tline-hint{color:#6C7086;font-style:italic}
+
+/* ---------- ROUND TABLE ---------- */
+.table-viz{position:relative;width:100%;max-width:430px;aspect-ratio:1;margin:var(--space-6) auto}
+.table-surface{position:absolute;inset:19%;border-radius:50%;background:var(--color-surface-warm);
+  border:2px dashed var(--color-border);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:var(--space-4)}
+.table-center-label{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);
+  text-transform:uppercase;letter-spacing:.1em}
+.table-center-value{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700;
+  color:var(--color-accent);line-height:1.1;margin-top:4px}
+.tv-philo{position:absolute;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;
+  background:var(--color-surface);box-shadow:var(--shadow-md);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;border:2.5px solid var(--color-border);
+  transition:all var(--duration-normal) var(--ease-out);font-family:var(--font-display)}
+.tv-philo .pid{font-size:var(--text-lg);font-weight:700;line-height:1}
+.tv-philo .pst{font-size:9px;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:2px;
+  text-transform:uppercase;letter-spacing:.03em}
+.tv-philo.eating{border-color:var(--color-success);background:var(--color-success-light);transform:scale(1.1)}
+.tv-philo.eating .pst{color:var(--color-success)}
+.tv-philo.sleeping{border-color:var(--color-info);background:var(--color-info-light)}
+.tv-philo.sleeping .pst{color:var(--color-info)}
+.tv-philo.thinking{border-color:var(--color-actor-3);background:#F1EFF7}
+.tv-philo.thinking .pst{color:var(--color-actor-3)}
+.tv-philo.waiting{border-color:var(--color-accent-muted);background:var(--color-accent-light)}
+.tv-philo.waiting .pst{color:var(--color-accent)}
+.tv-philo.dead{border-color:var(--color-error);background:var(--color-error-light);opacity:.75}
+.tv-philo.dead .pst{color:var(--color-error)}
+.tv-fork{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;
+  background:var(--color-surface);border:2px solid var(--color-border);display:flex;align-items:center;
+  justify-content:center;font-size:11px;transition:all var(--duration-normal) var(--ease-out);z-index:2}
+.tv-fork.held{background:var(--color-accent);border-color:var(--color-accent);transform:scale(1.15);
+  box-shadow:0 0 0 4px rgba(217,79,48,.15)}
+.viz-legend{display:flex;gap:var(--space-4);flex-wrap:wrap;justify-content:center;margin-top:var(--space-3)}
+.viz-legend span{font-size:var(--text-xs);color:var(--color-text-secondary);display:flex;align-items:center;gap:5px}
+.viz-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* ---------- CHAT ---------- */
+.chat-window{background:var(--color-surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+  overflow:hidden;margin:var(--space-6) 0;border:1px solid var(--color-border-light)}
+.chat-header{padding:var(--space-3) var(--space-5);background:var(--color-surface-warm);
+  border-bottom:1px solid var(--color-border-light);font-family:var(--font-display);font-weight:600;
+  font-size:var(--text-sm);display:flex;align-items:center;gap:var(--space-2)}
+.chat-header .dotlive{width:8px;height:8px;border-radius:50%;background:var(--color-success);
+  animation:pulseGlow 2s infinite}
+.chat-messages{padding:var(--space-5);min-height:270px;max-height:400px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:var(--space-4);scroll-behavior:smooth}
+.chat-messages::-webkit-scrollbar{width:5px}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:9px}
+.chat-message{display:flex;gap:var(--space-3);align-items:flex-start;animation:fadeSlideUp .3s var(--ease-out)}
+.chat-message.self{flex-direction:row-reverse}
+.chat-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:var(--font-display);font-weight:700;font-size:var(--text-xs);flex-shrink:0}
+.chat-bubble{background:var(--color-bg-warm);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);
+  max-width:78%}
+.chat-message.self .chat-bubble{background:var(--color-accent-light)}
+.chat-sender{font-family:var(--font-mono);font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;display:block;margin-bottom:3px}
+.chat-bubble p{margin:0;font-size:var(--text-sm);color:var(--color-text);line-height:var(--leading-normal);max-width:none}
+.chat-bubble code{font-family:var(--font-mono);font-size:.85em;background:rgba(44,42,40,.07);padding:1px 5px;border-radius:4px}
+.chat-typing{display:flex;gap:var(--space-3);align-items:center;padding:0 var(--space-5) var(--space-4)}
+.chat-typing-dots{background:var(--color-bg-warm);border-radius:var(--radius-full);padding:11px 14px;
+  display:flex;gap:5px}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:var(--color-text-muted);animation:typingBounce 1.4s infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-controls{padding:var(--space-3) var(--space-5);border-top:1px solid var(--color-border-light);
+  background:var(--color-surface-warm);display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap}
+
+/* ---------- FLOW ANIMATION ---------- */
+.flow-animation{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-6);
+  box-shadow:var(--shadow-md);margin:var(--space-6) 0;border:1px solid var(--color-border-light)}
+.flow-actors{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);
+  position:relative;margin-bottom:var(--space-6);flex-wrap:wrap}
+.flow-actor{flex:1;min-width:82px;display:flex;flex-direction:column;align-items:center;gap:var(--space-2);
+  padding:var(--space-3);border-radius:var(--radius-md);transition:all var(--duration-normal) var(--ease-out);
+  text-align:center}
+.flow-actor span{font-size:var(--text-xs);color:var(--color-text-secondary);font-weight:500;line-height:1.3}
+.flow-actor-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;color:#fff;font-family:var(--font-display);font-weight:700;
+  transition:all var(--duration-normal) var(--ease-out)}
+.flow-actor.active{background:var(--color-accent-light)}
+.flow-actor.active .flow-actor-icon{transform:scale(1.14);box-shadow:0 0 0 4px rgba(217,79,48,.18)}
+.flow-actor.blocked .flow-actor-icon{filter:grayscale(.7);opacity:.55}
+.flow-actor.blocked{background:var(--color-error-light)}
+.flow-packet{position:absolute;width:15px;height:15px;border-radius:50%;background:var(--color-accent);
+  box-shadow:0 0 12px rgba(217,79,48,.55);opacity:0;pointer-events:none;z-index:5;
+  transition:opacity 200ms ease;top:24px}
+.flow-step-label{background:var(--color-bg-warm);border-radius:var(--radius-md);
+  padding:var(--space-4) var(--space-5);font-size:var(--text-sm);color:var(--color-text);min-height:74px;
+  display:block;line-height:var(--leading-normal);border-left:3px solid var(--color-accent)}
+.flow-step-label code{font-family:var(--font-mono);font-size:.9em;background:rgba(44,42,40,.07);
+  padding:1px 5px;border-radius:4px}
+.flow-step-label.danger{border-left-color:var(--color-error);background:var(--color-error-light)}
+.flow-step-label.good{border-left-color:var(--color-success);background:var(--color-success-light)}
+.flow-step-label strong{font-family:var(--font-display)}
+
+/* ---------- TOGGLE / TABS ---------- */
+.tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-4);flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;
+  background:var(--color-surface);border:1.5px solid var(--color-border);color:var(--color-text-secondary);
+  transition:all var(--duration-fast) var(--ease-out)}
+.tab:hover{border-color:var(--color-accent-muted);color:var(--color-accent)}
+.tab.active{background:var(--color-accent);border-color:var(--color-accent);color:#fff}
+
+/* ---------- ARCHITECTURE ---------- */
+.arch-diagram{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-5);
+  box-shadow:var(--shadow-md);margin:var(--space-6) 0;border:1px solid var(--color-border-light)}
+.arch-zone{border:1.5px dashed var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);
+  margin-bottom:var(--space-3)}
+.arch-zone-label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--color-text-muted);margin-bottom:var(--space-3)}
+.arch-row{display:flex;gap:var(--space-3);flex-wrap:wrap}
+.arch-component{flex:1;min-width:120px;background:var(--color-bg-warm);border-radius:var(--radius-sm);
+  padding:var(--space-3);display:flex;align-items:center;gap:var(--space-3);cursor:pointer;
+  transition:all var(--duration-fast) var(--ease-out);border:2px solid transparent}
+.arch-component:hover{background:var(--color-accent-light);transform:translateY(-2px)}
+.arch-component.selected{border-color:var(--color-accent);background:var(--color-accent-light)}
+.arch-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.95rem;flex-shrink:0}
+.arch-component span{font-size:var(--text-xs);font-weight:600;font-family:var(--font-mono);line-height:1.3}
+.arch-description{background:var(--color-bg-code);color:#CDD6F4;border-radius:var(--radius-md);
+  padding:var(--space-4) var(--space-5);font-size:var(--text-sm);line-height:var(--leading-normal);
+  min-height:70px;display:block}
+.arch-description b{color:#F9E2AF}
+.arch-description code{font-family:var(--font-mono);font-size:.9em;background:rgba(255,255,255,.09);
+  padding:1px 5px;border-radius:4px;color:#F9E2AF}
+
+/* ---------- BUG CHALLENGE ---------- */
+.bug-challenge{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-5);
+  box-shadow:var(--shadow-md);margin:var(--space-6) 0;border:1px solid var(--color-border-light)}
+.bug-challenge h4{font-family:var(--font-display);font-size:var(--text-base);margin-bottom:var(--space-3)}
+.bug-code{background:var(--color-bg-code);border-radius:var(--radius-md);padding:var(--space-3) 0;overflow:hidden}
+.bug-line{display:flex;gap:var(--space-3);padding:3px var(--space-4);font-family:var(--font-mono);
+  font-size:var(--text-sm);color:#CDD6F4;cursor:pointer;transition:background var(--duration-fast);
+  border-left:3px solid transparent;line-height:1.7}
+.bug-line:hover{background:rgba(255,255,255,.06)}
+.bug-line .line-num{color:#585B70;min-width:20px;text-align:right;flex-shrink:0;user-select:none}
+.bug-line.correct{background:rgba(45,139,85,.18);border-left-color:var(--color-success)}
+.bug-line.incorrect{background:rgba(201,59,59,.18);border-left-color:var(--color-error)}
+.bug-feedback{margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);
+  font-size:var(--text-sm);line-height:var(--leading-normal);display:none}
+.bug-feedback.show{display:block;animation:fadeSlideUp .3s var(--ease-out)}
+.bug-feedback.success{background:var(--color-success-light);border-left:3px solid var(--color-success)}
+.bug-feedback.error{background:var(--color-error-light);border-left:3px solid var(--color-error)}
+.bug-feedback code{font-family:var(--font-mono);background:rgba(44,42,40,.08);padding:1px 5px;border-radius:4px}
+
+/* ---------- COMPARE ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin:var(--space-6) 0}
+.compare-col{background:var(--color-surface);border-radius:var(--radius-md);padding:var(--space-5);
+  box-shadow:var(--shadow-sm);border-top:3px solid var(--color-border)}
+.compare-col.bad{border-top-color:var(--color-error)}
+.compare-col.good{border-top-color:var(--color-success)}
+.compare-col h5{font-family:var(--font-display);font-size:var(--text-base);margin-bottom:var(--space-2);
+  display:flex;align-items:center;gap:var(--space-2)}
+.compare-col p{font-size:var(--text-sm);margin:0;max-width:none}
+.compare-col pre{font-family:var(--font-mono);font-size:var(--text-xs);background:var(--color-bg-code);
+  color:#CDD6F4;padding:var(--space-3);border-radius:var(--radius-sm);margin:var(--space-3) 0;line-height:1.6}
+
+/* ---------- VOCAB GRID ---------- */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--space-3);
+  margin:var(--space-6) 0}
+.vocab-card{background:var(--color-surface);border-radius:var(--radius-md);padding:var(--space-4);
+  box-shadow:var(--shadow-sm);border-left:3px solid var(--color-accent-muted);
+  transition:transform var(--duration-fast) var(--ease-out)}
+.vocab-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-left-color:var(--color-accent)}
+.vocab-term{font-family:var(--font-mono);font-size:var(--text-sm);font-weight:600;color:var(--color-accent);
+  display:block;margin-bottom:var(--space-1)}
+.vocab-def{font-size:var(--text-xs);color:var(--color-text-secondary);line-height:var(--leading-normal);margin:0}
+
+/* ---------- HERO ---------- */
+.hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  scroll-snap-align:start;padding:var(--space-16) var(--space-6);text-align:center;position:relative}
+.hero-inner{max-width:720px}
+.hero-eyebrow{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;
+  letter-spacing:.18em;color:var(--color-accent);margin-bottom:var(--space-5);font-weight:500}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,7vw,4.4rem);font-weight:800;
+  line-height:1.02;letter-spacing:-.035em;margin-bottom:var(--space-5)}
+.hero h1 em{font-style:normal;color:var(--color-accent)}
+.hero-sub{font-size:var(--text-lg);color:var(--color-text-secondary);max-width:56ch;margin:0 auto var(--space-8);
+  line-height:var(--leading-normal)}
+.hero-meta{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-bottom:var(--space-8)}
+.hero-chip{font-family:var(--font-mono);font-size:var(--text-xs);padding:6px 14px;border-radius:var(--radius-full);
+  background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text-secondary)}
+.scroll-cue{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);
+  display:flex;flex-direction:column;align-items:center;gap:var(--space-2)}
+.scroll-cue::after{content:'↓';font-size:1.1rem;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- OUTRO ---------- */
+.outro{text-align:center;padding:var(--space-24) var(--space-6)}
+.outro h2{font-family:var(--font-display);font-size:var(--text-4xl);font-weight:700;margin-bottom:var(--space-4);
+  letter-spacing:-.025em}
+.outro p{max-width:54ch;margin:0 auto var(--space-4);color:var(--color-text-secondary)}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:820px){
+  .flow-steps{flex-direction:column}
+  .flow-arrow{transform:rotate(90deg);justify-content:center}
+}
+@media(max-width:768px){
+  :root{--text-4xl:1.875rem;--text-5xl:2.25rem;--text-6xl:3rem;--text-2xl:1.35rem}
+  .translation-block{grid-template-columns:1fr}
+  .translation-english{border-left:none;border-top:3px solid var(--color-accent)}
+  .compare{grid-template-columns:1fr}
+  .module-body{gap:var(--space-12)}
+}
+@media(max-width:480px){
+  :root{--text-4xl:1.6rem;--text-6xl:2.5rem}
+  .module{padding:var(--space-10) var(--space-4) var(--space-16);padding-top:calc(var(--nav-height) + var(--space-8))}
+  .pattern-cards{grid-template-columns:1fr}
+  .tv-philo{width:50px;height:50px;margin:-25px 0 0 -25px}
+  .tv-philo .pid{font-size:var(--text-base)}
+  .tv-philo .pst{font-size:8px}
+  .chat-bubble{max-width:84%}
+  .terminal-body{height:240px;font-size:var(--text-xs)}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  <div class="nav-inner">
+    <span class="nav-title">philo<span>/</span> The Dinner That Can Kill You</span>
+    <div class="nav-dots" role="tablist" aria-label="Course modules">
+      <button class="nav-dot" data-target="hero" data-tooltip="Start" role="tab" aria-label="Start"></button>
+      <button class="nav-dot" data-target="module-1" data-tooltip="01 · The Program" role="tab" aria-label="Module 1"></button>
+      <button class="nav-dot" data-target="module-2" data-tooltip="02 · The Cast" role="tab" aria-label="Module 2"></button>
+      <button class="nav-dot" data-target="module-3" data-tooltip="03 · Threads" role="tab" aria-label="Module 3"></button>
+      <button class="nav-dot" data-target="module-4" data-tooltip="04 · Deadlock" role="tab" aria-label="Module 4"></button>
+      <button class="nav-dot" data-target="module-5" data-tooltip="05 · The Referee" role="tab" aria-label="Module 5"></button>
+      <button class="nav-dot" data-target="module-6" data-tooltip="06 · Fairness" role="tab" aria-label="Module 6"></button>
+      <button class="nav-dot" data-target="module-7" data-tooltip="07 · When It Breaks" role="tab" aria-label="Module 7"></button>
+      <button class="nav-dot" data-target="module-8" data-tooltip="08 · Big Picture" role="tab" aria-label="Module 8"></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow animate-in">A course about the code in <code style="font-family:var(--font-mono)">philo/</code></p>
+    <h1 class="animate-in">Five philosophers.<br>Five forks.<br><em>Nobody may starve.</em></h1>
+    <p class="hero-sub animate-in">This project is a small C program that simulates a deadly dinner party. It looks like a toy. It is actually one of the hardest problems in computing — and the code in this folder solves it. Here's exactly how.</p>
+    <div class="hero-meta animate-in">
+      <span class="hero-chip">C</span>
+      <span class="hero-chip">pthreads</span>
+      <span class="hero-chip">7 source files</span>
+      <span class="hero-chip">~575 lines</span>
+      <span class="hero-chip">8 modules</span>
+    </div>
+    <div class="scroll-cue animate-in">scroll, or use ↑ ↓ keys</div>
+  </div>
+</header>
+
+<!-- ============ MODULE 1 ============ -->
+<section class="module" id="module-1">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">01</span>
+    <h1 class="module-title">A dinner party where you can starve to death</h1>
+    <p class="module-subtitle">Before any code: what this program simulates, why it's famous, and what it prints when you run it.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The setup</span>The rules of the table</h2>
+      <p class="lead">Philosophers sit around a round table. Between each pair of neighbours lies <strong>one fork</strong>. A philosopher needs <strong>two forks</strong> — the one on their left and the one on their right — to eat.</p>
+      <p>Each one loops forever: eat, sleep, think, repeat. If a philosopher goes too long without eating, they die and the whole dinner stops.</p>
+
+      <div class="pattern-cards stagger-children">
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-actor-5)">
+          <div class="pattern-icon" style="background:var(--color-success-light)">🍝</div>
+          <h4 class="pattern-title">Eat</h4>
+          <p class="pattern-desc">Requires holding both neighbouring forks at once. Takes <code class="inline">time_to_eat</code> milliseconds.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-actor-2)">
+          <div class="pattern-icon" style="background:var(--color-info-light)">😴</div>
+          <h4 class="pattern-title">Sleep</h4>
+          <p class="pattern-desc">Forks are put back on the table. Nobody is blocked. Takes <code class="inline">time_to_sleep</code> ms.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-actor-3)">
+          <div class="pattern-icon" style="background:#F1EFF7">💭</div>
+          <h4 class="pattern-title">Think</h4>
+          <p class="pattern-desc">Waiting for a turn. This is where hunger quietly builds — and where deaths happen.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-error)">
+          <div class="pattern-icon" style="background:var(--color-error-light)">💀</div>
+          <h4 class="pattern-title">Die</h4>
+          <p class="pattern-desc">If <code class="inline">time_to_die</code> ms pass since their last meal started, they're gone and the program ends.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🎓</div>
+        <div class="callout-content">
+          <strong class="callout-title">This is a famous problem, not a made-up exercise</strong>
+          <p>Edsger Dijkstra invented "the Dining Philosophers" in 1965 to demonstrate <span class="term" data-definition="<b>Concurrency</b> is when a program does several things at once — or appears to. Instead of running step 1, then 2, then 3, it runs multiple sequences of steps simultaneously and they can interfere with each other.">concurrency</span> bugs that are otherwise almost impossible to explain. The forks are a stand-in for any limited resource that many parts of a program fight over: a database connection, a file, a slot in memory.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in wide">
+      <h2 class="screen-heading"><span class="eyebrow">Watch it run</span>Real output, replayed at the real speed</h2>
+      <p>Below is the actual output of <code class="inline">./philo 4 410 200 200 3</code> — 4 philosophers, dead after 410ms without food, 200ms to eat, 200ms to sleep, stop once everyone has eaten 3 times. Press play and watch the table and the log together.</p>
+
+      <div class="table-viz" id="viz-1" aria-label="Animated round table of philosophers"></div>
+      <div class="viz-legend">
+        <span><i style="background:var(--color-success)"></i>eating</span>
+        <span><i style="background:var(--color-info)"></i>sleeping</span>
+        <span><i style="background:var(--color-actor-3)"></i>thinking</span>
+        <span><i style="background:var(--color-accent)"></i>fork held</span>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot" style="background:#F38BA8"></span>
+          <span class="terminal-dot" style="background:#F9E2AF"></span>
+          <span class="terminal-dot" style="background:#A6E3A1"></span>
+          <span class="terminal-cmd">$ ./philo 4 410 200 200 3</span>
+        </div>
+        <div class="terminal-body" id="term-1"><div class="tline"><span class="tline-hint">press play to start the simulation…</span></div></div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="sim-play">▶ Play simulation</button>
+        <button class="btn btn-ghost" id="sim-reset">Reset</button>
+        <span class="controls-status" id="sim-status">0 ms elapsed</span>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">👀</div>
+        <div class="callout-content">
+          <strong class="callout-title">Notice the pattern: 1 and 3 eat, then 2 and 4 eat</strong>
+          <p>Nobody coordinated that. There is no scheduler, no turn-taking list, no central manager. Four independent workers, each following simple local rules, produced a perfectly alternating pattern. That emergent order <em>is</em> the achievement of this program — and modules 4 and 6 show the two tricks that cause it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The entry point</span>Where the program starts</h2>
+      <p>Every C program starts at a <span class="term" data-definition="A <b>function</b> is a named block of code you can run on demand. You 'call' it by name, optionally hand it some values, and it may hand a value back.">function</span> called <code class="inline">main</code>. Here it is — the whole thing is five checks in a row.</p>
+
+      <div class="file-label">philo.c — main()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">int</span>	<span class="code-function">main</span>(<span class="code-keyword">int</span> ac, <span class="code-keyword">char</span> **av)
+{
+	<span class="code-type">t_data</span>	*data;
+
+	<span class="code-keyword">if</span> (ac &lt; <span class="code-number">5</span> || ac &gt; <span class="code-number">6</span>)
+		<span class="code-keyword">return</span> (<span class="code-function">ft_putstr_fd</span>(<span class="code-string">"Error ! Wrong Arguments... [4 - 5]\n"</span>, <span class="code-number">2</span>), <span class="code-number">1</span>);
+	<span class="code-keyword">if</span> (!<span class="code-function">parse_value</span>(ac, av))
+		<span class="code-keyword">return</span> (<span class="code-function">ft_putstr_fd</span>(<span class="code-string">"Error ! Wrong Values...\n"</span>, <span class="code-number">2</span>), <span class="code-number">1</span>);
+	data = <span class="code-function">fill_data_struct</span>(ac, av);
+	<span class="code-keyword">if</span> (!data)
+		<span class="code-keyword">return</span> (<span class="code-function">ft_putstr_fd</span>(<span class="code-string">"Error ! Initialization failed.\n"</span>, <span class="code-number">2</span>), <span class="code-number">1</span>);
+	<span class="code-keyword">if</span> (!<span class="code-function">start_simulation</span>(data))
+		<span class="code-keyword">return</span> (<span class="code-function">destroy_data</span>(data),
+			<span class="code-function">ft_putstr_fd</span>(<span class="code-string">"Error ! Simulation failed.\n"</span>, <span class="code-number">2</span>), <span class="code-number">1</span>);
+	<span class="code-function">destroy_data</span>(data);
+	<span class="code-keyword">return</span> (<span class="code-number">0</span>);
+}</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>The program begins here.</strong> <code>ac</code> is how many words the user typed; <code>av</code> is the list of those words.</p>
+            <p class="tl">Reserve a slot for <code>data</code> — the box that will hold the whole simulation's state.</p>
+            <p class="tl"><strong>Check 1:</strong> did they give us 4 or 5 numbers? (<code>ac</code> counts the program's own name too, hence 5 and 6.) If not, complain and quit.</p>
+            <p class="tl"><strong>Check 2:</strong> are all those numbers positive whole numbers? "Zero philosophers" or "banana milliseconds" gets rejected here.</p>
+            <p class="tl"><strong>Build the world:</strong> <span class="term" data-definition="To <b>allocate</b> memory is to formally ask the system to reserve a chunk of it for your use. You must later hand it back ('free' it), or the program leaks memory.">allocate</span> memory, create the locks, create the philosophers. If it handed back <span class="term" data-definition="<b>NULL</b> is C&#39;s &#39;nothing here&#39; pointer value. Functions return it to signal failure, and reading through it crashes the program instantly — the classic &#39;null pointer&#39; crash.">NULL</span> — C&#39;s way of saying it did not work — say so and quit.</p>
+            <p class="tl"><strong>Run the dinner.</strong> This one line takes seconds or minutes — everything in this course happens inside it.</p>
+            <p class="tl"><strong>Clean up and exit.</strong> Return <code>0</code>, which by universal convention means "finished successfully."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🧭</div>
+        <div class="callout-content">
+          <strong class="callout-title">Read this shape everywhere</strong>
+          <p>Validate input → build state → run → clean up. That four-beat structure is the skeleton of almost every program ever written, from this 40-line file to a web server. When you ask an AI to write a <span class="term" data-definition="<b>CLI</b> stands for Command-Line Interface — a program you run by typing its name into a terminal, rather than clicking on it. <code>git</code>, <code>ls</code>, and this philosophers program are all CLIs.">CLI</span> tool, this is the shape you should expect back.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The five numbers</span>Everything the user controls</h2>
+      <div class="badge-list stagger-children">
+        <div class="badge-item animate-in"><code class="badge-code">number_of_philosophers</code><span class="badge-desc">How many diners — and therefore how many forks, and how many <span class="term" data-definition="A <b>thread</b> is an independent line of execution inside one program. One program can have many threads running at the same time, all sharing the same memory. Module 3 covers this in depth.">threads</span>.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">time_to_die</code><span class="badge-desc"><span class="term" data-definition="A <b>millisecond</b> is one thousandth of a second. All timings in this program are in milliseconds — fast for a human, but an eternity for a processor, which executes millions of instructions in that time.">Milliseconds</span> a philosopher can survive since their last meal <em>began</em>. The deadline everything else is measured against.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">time_to_eat</code><span class="badge-desc">How long a meal takes. During this time both forks are unavailable to the neighbours.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">time_to_sleep</code><span class="badge-desc">How long a nap takes after eating. Forks are already back on the table.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">[must_eat_count]</code><span class="badge-desc">Optional. If given, the program stops cleanly once everyone has eaten this many times. If omitted, it runs until someone dies.</span></div>
+      </div>
+      <p style="font-size:var(--text-sm)">Square brackets are the universal convention for "optional <span class="term" data-definition="An <b>argument</b> is a value you hand to a program or function when you run it. Typing <code>./philo 4 410 200 200</code> passes four arguments.">argument</span>" in command-line documentation. In the code that optionality shows up as <code class="inline">must_eat = -1</code>, a <span class="term" data-definition="A <b>sentinel value</b> is an ordinary-looking value reserved to mean something special — here -1 means 'no meal limit'. Common, but risky: if a genuine -1 ever appears, the code misreads it.">sentinel value</span> meaning "no limit."</p>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 2 ============ -->
+<section class="module" id="module-2">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">02</span>
+    <h1 class="module-title">Meet the cast</h1>
+    <p class="module-subtitle">Seven files, two data structures, and three kinds of characters. Learn who is who and the rest of the course reads itself.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The metaphor</span>A stage play with three roles</h2>
+      <p class="lead">Think of the program as a theatre production. There are <strong>actors</strong> who perform, a <strong>stage manager</strong> watching from the wings ready to drop the curtain, and the <strong>set</strong> — the props everyone shares.</p>
+
+      <div class="icon-rows stagger-children">
+        <div class="icon-row animate-in">
+          <div class="icon-circle" style="background:var(--color-actor-1)">🧑‍🍳</div>
+          <div><strong>The philosophers — the actors</strong>
+          <p>One thread each, all running the identical script (<code class="inline">routine()</code>). They never talk to each other directly. They only compete for props.</p></div>
+        </div>
+        <div class="icon-row animate-in">
+          <div class="icon-circle" style="background:var(--color-actor-2)">👁️</div>
+          <div><strong>The monitor — the stage manager</strong>
+          <p>One extra thread that performs nothing. It walks the line every millisecond checking "is anyone starving? is everyone finished?" and ends the show.</p></div>
+        </div>
+        <div class="icon-row animate-in">
+          <div class="icon-circle" style="background:var(--color-actor-4)">🍴</div>
+          <div><strong>The forks and the shared data — the set</strong>
+          <p>Props on the stage. Anyone can reach for them, but only one actor can hold a given fork at a time. Enforcing that is the entire difficulty.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The files</span>One job per file</h2>
+      <p>The project splits into seven <code class="inline">.c</code> files plus one <span class="term" data-definition="A <b>header file</b> (ending in .h) is a shared table of contents. It declares what data structures exist and what functions are available, so every other file knows how to use them without seeing their code.">header</span>. Hover any row.</p>
+
+      <div class="file-tree">
+        <div class="ft-row"><span class="ft-name dir">philo/</span><span class="ft-desc">the whole project</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">philosophers.h</span><span class="ft-desc">The shared contract: both data structures, and the list of all 15 functions</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">philo.c</span><span class="ft-desc">main() — argument checks and the top-level sequence</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">parsing.c</span><span class="ft-desc">ft_atoi() — turns the text "410" into the number 410, rejecting anything invalid</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">init.c</span><span class="ft-desc">Builds the world: allocates memory, creates every lock, assigns fork numbers</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">simulation.c</span><span class="ft-desc">The philosopher's life: take forks, eat, release, sleep, think. The heart of it.</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">monitor.c</span><span class="ft-desc">The watchdog thread: detects death and detects "everyone's had enough"</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">utils.c</span><span class="ft-desc">Small shared tools: read the clock, read/set the stop flag, print safely</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">cleanup.c</span><span class="ft-desc">Tears everything down in the right order so nothing leaks</span></div>
+        <div class="ft-row" style="margin-left:var(--space-6)"><span class="ft-name">Makefile</span><span class="ft-desc">The <span class="term" data-definition="To <b>build</b> (or compile) is to turn human-readable source code into a file the computer can actually run. In C this is a required step before anything works — unlike Python or JavaScript.">build</span> recipe — how to turn all that text into one runnable program</span></div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">💡</div>
+        <div class="callout-content">
+          <strong class="callout-title">Why not one big file?</strong>
+          <p>Nothing would break. But when a bug appears in timing, you want to open <code>monitor.c</code>, not scroll through 575 lines. Engineers call this <strong>separation of concerns</strong> — and it's a phrase worth using with an AI: "split this into modules by concern" gets you far better results than "clean this up."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Data structure 1</span>t_data — the table itself</h2>
+      <p>A <span class="term" data-definition="A <b>struct</b> (short for structure) is a custom container that groups related values under one name. Instead of juggling 12 loose variables, you bundle them into one labelled box and pass the box around.">struct</span> is a labelled box holding related values. <code class="inline">t_data</code> is the one box every thread shares.</p>
+
+      <div class="file-label">philosophers.h</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">typedef struct</span> s_data
+{
+	<span class="code-keyword">int</span>					n_philo;
+	<span class="code-keyword">int</span>					t_die;
+	<span class="code-keyword">int</span>					t_eat;
+	<span class="code-keyword">int</span>					t_sleep;
+	<span class="code-keyword">int</span>					must_eat;
+	<span class="code-keyword">long</span>				start_ms;
+	<span class="code-keyword">int</span>					stop;
+	<span class="code-type">pthread_mutex_t</span>		*forks;
+	<span class="code-type">pthread_mutex_t</span>		print_mtx;
+	<span class="code-type">pthread_mutex_t</span>		stop_mtx;
+	<span class="code-type">pthread_mutex_t</span>		meal_mtx;
+	<span class="code-type">t_philo</span>				*philos;
+}						<span class="code-type">t_data</span>;</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Define a box type called <code>t_data</code></strong> holding everything about the dinner.</p>
+            <p class="tl">The five numbers the user typed, stored as whole numbers.</p>
+            <p class="tl"><code>start_ms</code>: the clock reading at the instant the dinner began. Every timestamp you see printed is "now minus this."</p>
+            <p class="tl"><code>stop</code>: the emergency brake. <code>0</code> means keep going, <code>1</code> means everybody stop immediately.</p>
+            <p class="tl"><code>*forks</code>: an <span class="term" data-definition="An <b>array</b> is a numbered list of items stored side by side in memory. You reach an item by its position number rather than by name.">array</span> of locks, one per fork. The <code>*</code> means "the size isn't known until the program runs."</p>
+            <p class="tl"><strong>Three more locks</strong> guarding three different things: printing, the stop flag, and meal records. Module 5 explains why three and not one.</p>
+            <p class="tl"><code>*philos</code>: the list of philosophers themselves.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Data structure 2</span>t_philo — one diner</h2>
+
+      <div class="file-label">philosophers.h</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">typedef struct</span> s_philo
+{
+	<span class="code-keyword">int</span>					id;
+	<span class="code-type">pthread_t</span>			thread;
+	<span class="code-keyword">int</span>					left_fork;
+	<span class="code-keyword">int</span>					right_fork;
+	<span class="code-keyword">long</span>				last_meal_ms;
+	<span class="code-keyword">int</span>					meals_eaten;
+	<span class="code-type">t_data</span>				*data;
+}						<span class="code-type">t_philo</span>;</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>One philosopher's personal record.</strong></p>
+            <p class="tl"><code>id</code>: their number, 1 through N. This is what gets printed in the log.</p>
+            <p class="tl"><code>thread</code>: the handle to their running thread — how the main program later says "wait for this one to finish."</p>
+            <p class="tl"><code>left_fork</code> / <code>right_fork</code>: not the forks themselves, just <strong>which <span class="term" data-definition="An <b>index</b> is a position number in a list, almost always counting from 0. 'Fork at index 2' means the third fork.">index</span></strong> in the shared fork list. Philosopher 0 uses forks 0 and 1.</p>
+            <p class="tl"><code>last_meal_ms</code>: when their last meal started. The monitor compares this against the clock to detect starvation.</p>
+            <p class="tl"><code>meals_eaten</code>: their personal counter, used for the optional "everyone ate N times" finish.</p>
+            <p class="tl"><code>*data</code>: a pointer back to the shared table, so each philosopher can reach the forks and the rules.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🔗</div>
+        <div class="callout-content">
+          <strong class="callout-title">The back-pointer trick</strong>
+          <p>Each philosopher carries <code>*data</code>, a <span class="term" data-definition="A <b>pointer</b> is a value that holds the address of something else, rather than a copy of it. Like a house address versus the house: everyone with the address reaches the same house, and a change made by one is seen by all.">pointer</span> back to the shared world. That's why a thread can be handed exactly one thing — itself — and still reach everything. You'll see this same pattern as <code>context</code>, <code>ctx</code>, or <code>props</code> in every language you meet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Interactive</span>Click a piece to learn its job</h2>
+      <div class="arch-diagram">
+        <div class="arch-zone">
+          <div class="arch-zone-label">Main thread — sets up and waits</div>
+          <div class="arch-row">
+            <div class="arch-component" data-desc="<b>main()</b> in philo.c. Validates the arguments, then hands off. After launching the threads it does nothing but wait for all of them to finish — it is not part of the dinner." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-1)">▶</div><span>main()</span></div>
+            <div class="arch-component" data-desc="<b>fill_data_struct()</b> in init.c. Allocates the t_data box, converts the text arguments into numbers, then creates every mutex and every philosopher record. If any step fails it undoes the previous ones and returns NULL." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-1)">🏗</div><span>init</span></div>
+            <div class="arch-component" data-desc="<b>destroy_data()</b> in cleanup.c. Runs at the very end: destroys every fork lock, frees the philosopher list, destroys the three global locks, frees the box itself. Order matters — you never free memory that a lock still lives inside." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-1)">🧹</div><span>cleanup</span></div>
+          </div>
+        </div>
+        <div class="arch-zone">
+          <div class="arch-zone-label">N philosopher threads — all running the same code</div>
+          <div class="arch-row">
+            <div class="arch-component" data-desc="<b>routine()</b> in simulation.c. The function every philosopher thread runs. It loops: wait your turn, take two forks, eat, put forks down, sleep, think. It exits when the stop flag is raised or when it has eaten enough." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-3)">🔁</div><span>routine()</span></div>
+            <div class="arch-component" data-desc="<b>take_forks()</b> in simulation.c. The most dangerous function in the project. It decides which fork to grab first based on whether the philosopher's id is odd or even — that single choice is what prevents total deadlock. Module 4." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-3)">🍴</div><span>take_forks()</span></div>
+            <div class="arch-component" data-desc="<b>should_wait()</b> in utils.c. The politeness rule. Before grabbing forks, a philosopher checks whether either neighbour is hungrier than they are. If so, it holds back. This is what prevents starvation. Module 6." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-3)">✋</div><span>should_wait()</span></div>
+          </div>
+        </div>
+        <div class="arch-zone">
+          <div class="arch-zone-label">1 monitor thread — watches, never eats</div>
+          <div class="arch-row">
+            <div class="arch-component" data-desc="<b>monitor_routine()</b> in monitor.c. Wakes every millisecond, walks the list of philosophers, and asks two questions: has anyone exceeded time_to_die since their last meal? has everyone reached must_eat? Either answer ends the simulation." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-2)">👁</div><span>monitor</span></div>
+            <div class="arch-component" data-desc="<b>The stop flag</b> — a single integer in t_data, guarded by stop_mtx. Every thread checks it constantly via check_stop(). It is the only channel through which the monitor can tell 200 philosophers to go home." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-2)">🛑</div><span>stop flag</span></div>
+            <div class="arch-component" data-desc="<b>print_status()</b> in utils.c. The only place anything is printed. It holds print_mtx while writing so two philosophers can never interleave their text mid-line, and it re-checks the stop flag so nothing prints after a death." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-2)">🖨</div><span>print_status()</span></div>
+          </div>
+        </div>
+        <div class="arch-description" id="arch-desc-2">Click any component above to see what it does.</div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 3 ============ -->
+<section class="module" id="module-3">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">03</span>
+    <h1 class="module-title">Threads: many hands, one memory</h1>
+    <p class="module-subtitle">How one program runs five philosophers at the same time — and why "at the same time" is where every hard bug comes from.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The metaphor</span>Multiple cursors in one shared document</h2>
+      <p class="lead">Picture a Google Doc open on six laptops. Six cursors, six people typing independently — but <strong>one document</strong>. Nobody has their own copy. If two people edit the same sentence at the same instant, you get garbage.</p>
+      <p>That is exactly a thread. Six independent lines of execution, one shared <span class="term" data-definition="<b>Memory</b> (RAM) is the computer&#39;s short-term workspace where a running program keeps its data. Threads in one program all read and write the same memory — which is what makes them fast and dangerous.">memory</span>.</p>
+
+      <div class="compare">
+        <div class="compare-col bad">
+          <h5>📄 One cursor (normal code)</h5>
+          <p>Line 1 runs, then line 2, then line 3. Predictable, easy to reason about, and only one thing happens at a time. This is called <span class="term" data-definition="<b>Sequential</b> execution means one step strictly after another, in order. The opposite of concurrent. Almost all code you read is sequential; threads are the exception.">sequential</span> execution. A philosopher would have to finish their entire life before the next one starts.</p>
+        </div>
+        <div class="compare-col good">
+          <h5>📄📄📄 Six cursors (threads)</h5>
+          <p>Six copies of the same script run simultaneously on the same data. You get real simultaneity — and you lose all guarantees about what order things happen in.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-content">
+          <strong class="callout-title">The order is genuinely unpredictable</strong>
+          <p>The <span class="term" data-definition="The <b>operating system</b> (OS) is the software that manages your whole computer — Linux, macOS, Windows. Among other things it decides which piece of which program gets to use the processor at any given moment.">operating system</span> decides which thread runs when, and it changes its mind constantly. Run this program twice with identical arguments and you will get different output both times. Any bug that depends on ordering may appear once in a thousand runs — which is why concurrency bugs are the ones AI assistants get wrong most often.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Launching them</span>Five lines that start the whole dinner</h2>
+
+      <div class="file-label">simulation.c — start_simulation()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code>	data-&gt;start_ms = <span class="code-function">get_time_ms</span>();
+	i = <span class="code-number">-1</span>;
+	<span class="code-keyword">while</span> (++i &lt; data-&gt;n_philo)
+		data-&gt;philos[i].last_meal_ms = data-&gt;start_ms;
+	i = <span class="code-number">-1</span>;
+	<span class="code-keyword">while</span> (++i &lt; data-&gt;n_philo)
+		<span class="code-keyword">if</span> (<span class="code-function">pthread_create</span>(&amp;data-&gt;philos[i].thread, <span class="code-macro">NULL</span>,
+				routine, &amp;data-&gt;philos[i]) != <span class="code-number">0</span>)
+			<span class="code-keyword">return</span> (<span class="code-number">0</span>);
+	<span class="code-keyword">if</span> (<span class="code-function">pthread_create</span>(&amp;monitor, <span class="code-macro">NULL</span>, monitor_routine, data) != <span class="code-number">0</span>)
+		<span class="code-keyword">return</span> (<span class="code-number">0</span>);
+	i = <span class="code-number">-1</span>;
+	<span class="code-keyword">while</span> (++i &lt; data-&gt;n_philo)
+		<span class="code-function">pthread_join</span>(data-&gt;philos[i].thread, <span class="code-macro">NULL</span>);
+	<span class="code-function">pthread_join</span>(monitor, <span class="code-macro">NULL</span>);</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Start the stopwatch.</strong> Record the current time as "moment zero" for the whole dinner.</p>
+            <p class="tl"><strong>Give everyone a grace period.</strong> Tell every philosopher their last meal was right now — otherwise the monitor would see "last ate: never" and kill them all instantly.</p>
+            <p class="tl"><strong>Launch each philosopher.</strong> <code>pthread_create</code> says: start a new thread, have it run the <code>routine</code> function, and hand it this philosopher's record. Repeat N times.</p>
+            <p class="tl">If launching a thread fails, bail out immediately and report failure upward.</p>
+            <p class="tl"><strong>Launch the watchdog</strong> — one more thread, running different code, handed the whole shared table instead of a single philosopher.</p>
+            <p class="tl"><strong>Now wait.</strong> <code>pthread_join</code> means "pause here until that thread finishes." The main thread sits on this line for the entire dinner.</p>
+            <p class="tl">Finally wait for the monitor too. Only when all N+1 threads are done does this function return.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🔑</div>
+        <div class="callout-content">
+          <strong class="callout-title">Create then join — always both</strong>
+          <p>Starting a thread and never joining it is one of the most common concurrency mistakes. Without the join, <code>main</code> would race ahead, hit <code>destroy_data()</code>, and <span class="term" data-definition="To <b>free</b> memory is to hand a reserved chunk back to the system. Freeing memory that is still being used causes a 'use-after-free' — one of the most dangerous bug classes in C.">free</span> the memory that all the philosophers are still standing in. <em>"Are all threads joined before cleanup?"</em> is a great question to ask an AI that just wrote you threading code.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Group chat</span>What launch would sound like out loud</h2>
+      <p>If the threads could talk, the first 200 milliseconds would go something like this.</p>
+
+      <div class="chat-window">
+        <div class="chat-header"><span class="dotlive"></span>#dinner-service · 6 members</div>
+        <div class="chat-messages" id="chat-3">
+          <div class="chat-message self" data-sender="main" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-1)">M</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-1)">main thread</span>
+            <p>Clock started. Everyone, your <code>last_meal_ms</code> is set to right now — you each have 410ms before you starve.</p></div>
+          </div>
+          <div class="chat-message" data-sender="p1" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-3)">P1</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-3)">philosopher 1</span>
+            <p>Thread created. I'm running <code>routine()</code>. I can see the forks array and my own record. Going for forks 1 and 0.</p></div>
+          </div>
+          <div class="chat-message" data-sender="p2" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-5)">P2</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-5)">philosopher 2</span>
+            <p>Same script here. Wait — P1, are we both reading the same <code>data</code> box? I don't have my own copy?</p></div>
+          </div>
+          <div class="chat-message self" data-sender="main" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-1)">M</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-1)">main thread</span>
+            <p>Correct. One box, shared by all of you. That's the whole point — and the whole danger. Touch anything in it without a lock and you corrupt it.</p></div>
+          </div>
+          <div class="chat-message" data-sender="mon" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-2)">👁</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-2)">monitor</span>
+            <p>I'm up too. I don't eat and I don't hold forks. I just read your <code>last_meal_ms</code> every millisecond. If one of you goes 410ms without a meal I end the program.</p></div>
+          </div>
+          <div class="chat-message" data-sender="p4" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-4)">P4</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-4)">philosopher 4</span>
+            <p>Slightly stressful having a watchdog, but fine. P1 and P3 are eating. My left fork is taken, so I'm blocked at <code>pthread_mutex_lock</code> until P3 puts it back.</p></div>
+          </div>
+          <div class="chat-message self" data-sender="main" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-1)">M</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-1)">main thread</span>
+            <p>I'm parked on <code>pthread_join</code> now. I do nothing until all five of you return. Don't leave the loop without releasing your forks or we hang forever.</p></div>
+          </div>
+        </div>
+        <div class="chat-typing" id="typing-3" style="display:none">
+          <div class="chat-avatar" id="typing-avatar-3">?</div>
+          <div class="chat-typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>
+        </div>
+        <div class="chat-controls">
+          <button class="btn" data-chat-next="3">Next message</button>
+          <button class="btn btn-ghost" data-chat-all="3">Play all</button>
+          <button class="btn btn-ghost" data-chat-reset="3">Replay</button>
+          <span class="controls-status" id="chat-progress-3">0 / 7</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The shape of a thread function</span>Why it returns <code class="inline">void *</code></h2>
+
+      <div class="file-label">simulation.c</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">void</span>	*<span class="code-function">routine</span>(<span class="code-keyword">void</span> *arg)
+{
+	<span class="code-type">t_philo</span>	*philo;
+
+	philo = (<span class="code-type">t_philo</span> *)arg;</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Every thread function must have this exact shape:</strong> takes one anonymous pointer, returns one anonymous pointer. That's the contract <code>pthread_create</code> demands.</p>
+            <p class="tl"><code>void *</code> means "a pointer to something, and I'm not saying what." It's the C version of "<span class="term" data-definition="A <b>type</b> is what kind of value something is — whole number, decimal, text, pointer. C checks types strictly, so <code>void *</code> is the deliberate escape hatch meaning 'trust me, I know what this is'.">any type</span>" — it lets one function signature serve every possible use.</p>
+            <p class="tl">Reserve a properly-typed variable for our philosopher.</p>
+            <p class="tl"><strong>The <span class="term" data-definition="A <b>cast</b> tells the compiler to reinterpret a value as a different type. Here it converts the anonymous 'pointer to something' back into a specific 'pointer to a philosopher record'. The bytes don't change — only how the code reads them.">cast</span>:</strong> "this anonymous pointer is actually a philosopher — treat it as one." From here on the code can say <code>philo->id</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🧩</div>
+        <div class="callout-content">
+          <strong class="callout-title">Every thread API in every language does this</strong>
+          <p>The thread library was written before this program existed and knows nothing about philosophers. So it accepts a generic pointer and lets you cast it back. In JavaScript or Python the same idea appears as a <span class="term" data-definition="A <b>callback</b> is a function you hand to someone else so they can run it later. Like leaving your phone number at a shop — you don't wait around; they call you when it's time.">callback</span> with a payload argument. Recognising the pattern in one language means recognising it in all of them.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 4 ============ -->
+<section class="module" id="module-4">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">04</span>
+    <h1 class="module-title">The fork problem</h1>
+    <p class="module-subtitle">Mutexes, deadlock, and the single odd/even line that stops the whole table from freezing forever.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The metaphor</span>The petrol station bathroom key</h2>
+      <p class="lead">There's one key, chained to a hubcap, behind the counter. Take it and the bathroom is yours. Anyone else who wants in stands at the counter and <strong>waits</strong> — not politely, literally cannot proceed — until you bring it back.</p>
+      <p>That is a <span class="term" data-definition="A <b>mutex</b> (short for MUTual EXclusion) is a lock that only one thread can hold at a time. Any other thread that tries to take it is frozen at that line until the holder releases it.">mutex</span>. Each fork in this program is one.</p>
+
+      <div class="badge-list stagger-children">
+        <div class="badge-item animate-in"><code class="badge-code">pthread_mutex_init</code><span class="badge-desc">Have the key made. Done once at startup, in <code class="inline">init_forks_data()</code>.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">pthread_mutex_lock</code><span class="badge-desc">Take the key. <strong>If someone else has it, this line does not return</strong> — your thread <span class="term" data-definition="A <b>blocked</b> (frozen) thread is paused by the system, using no processor time, until whatever it is waiting for becomes available. It resumes automatically — nothing is lost, it just cannot proceed.">freezes</span> here until it's free.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">pthread_mutex_unlock</code><span class="badge-desc">Hand the key back. Exactly one waiting thread is now unfrozen.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">pthread_mutex_destroy</code><span class="badge-desc">Melt the key down at the end, in <code class="inline">destroy_forks()</code>. Skipping this <span class="term" data-definition="A <b>leak</b> is a resource you asked for and never gave back — memory, a lock, a file. A leaking program slowly consumes more and more until it is restarted or crashes.">leaks</span> resources.</span></div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🔒</div>
+        <div class="callout-content">
+          <strong class="callout-title">A mutex protects nothing by itself</strong>
+          <p>Nothing physically stops a thread from touching shared data without locking first. The lock only works because <em>every</em> piece of code agrees to ask for it. One function that forgets, and the protection is gone everywhere. That's why "which mutex guards this variable?" is the sharpest question you can ask about threaded code.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The danger</span>Deadlock: the one-lane bridge</h2>
+      <p class="lead">Two cars enter a one-lane bridge from opposite ends and meet in the middle. Each will reverse only after the other does. Neither ever does. The bridge is closed forever.</p>
+      <p>Now the same thing with forks: <strong>if all five philosophers pick up their left fork at the same instant</strong>, every fork on the table is held, every philosopher is waiting for a right fork that will never be released, and the program hangs — silent, using no <span class="term" data-definition="The <b>CPU</b> (Central Processing Unit) is the chip that executes instructions. 'Using no CPU' means the program is frozen waiting rather than working — the key clue that separates a deadlock from an infinite loop.">CPU</span>, doing nothing, forever.</p>
+
+      <div class="flow-animation">
+        <div class="tabs">
+          <button class="tab active" data-dl-mode="naive">❌ Naive: everyone grabs left first</button>
+          <button class="tab" data-dl-mode="fixed">✅ Actual code: odd/even ordering</button>
+        </div>
+        <div class="table-viz" id="viz-dl" style="max-width:360px" aria-label="Deadlock demonstration"></div>
+        <div class="flow-step-label" id="dl-label">Press "Next step" to watch five philosophers reach for forks.</div>
+        <div class="controls">
+          <button class="btn" id="dl-next">Next step</button>
+          <button class="btn btn-ghost" id="dl-reset">Restart</button>
+          <span class="controls-status" id="dl-progress">Step 0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The fix</span>Six lines that break the circle</h2>
+      <p>The deadlock needs a perfect ring of waiting: 1 waits on 2, 2 waits on 3, … 5 waits on 1. Break the ring anywhere and it cannot form.</p>
+
+      <div class="file-label">simulation.c — take_forks()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code>	<span class="code-keyword">if</span> (philo-&gt;id % <span class="code-number">2</span> == <span class="code-number">0</span>)
+	{
+		first = philo-&gt;left_fork;
+		second = philo-&gt;right_fork;
+	}
+	<span class="code-keyword">else</span>
+	{
+		first = philo-&gt;right_fork;
+		second = philo-&gt;left_fork;
+	}
+	<span class="code-function">pthread_mutex_lock</span>(&amp;philo-&gt;data-&gt;forks[first]);
+	<span class="code-function">print_status</span>(philo, <span class="code-string">"has taken a fork"</span>);
+	<span class="code-function">pthread_mutex_lock</span>(&amp;philo-&gt;data-&gt;forks[second]);
+	<span class="code-function">print_status</span>(philo, <span class="code-string">"has taken a fork"</span>);</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Is my id an even number?</strong> <code>%</code> is the <span class="term" data-definition="The <b>remainder operator</b> (<code>%</code>, also called modulo) gives what's left after division. <code>7 % 2</code> is 1. It is the standard way to test odd/even and to wrap around in circles.">remainder operator</span> — <code>id % 2</code> is 0 for even ids, 1 for odd ones.</p>
+            <p class="tl"><strong>Even philosophers reach left first,</strong> right second.</p>
+            <p class="tl"><strong>Odd philosophers reach right first,</strong> left second. The opposite order.</p>
+            <p class="tl"><strong>Take the first fork</strong> — freeze here if someone has it. Announce it.</p>
+            <p class="tl"><strong>Take the second fork</strong> — freeze again if needed. Announce it. Now we hold both and can eat.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-success">
+        <div class="callout-icon">✅</div>
+        <div class="callout-content">
+          <strong class="callout-title">Why reversing just some of them is enough</strong>
+          <p>Deadlock requires everyone to reach in the <em>same rotational direction</em>. Flip half of them and you always end up with at least one pair reaching for the same fork first — one of them wins, the other waits, and that pair breaks the ring. This is called <strong>lock ordering</strong>, and it is the standard cure for deadlock in every system on earth.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Name the parts</span>Deadlock needs all four of these</h2>
+      <p>A deadlock can only exist when four conditions hold at once. Remove any one and it becomes impossible — which gives you four different places to attack.</p>
+
+      <div class="pattern-cards stagger-children">
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon">🔐</div>
+          <h4 class="pattern-title">Mutual exclusion</h4>
+          <p class="pattern-desc">Only one holder at a time. Unavoidable here — a fork can't be shared.</p>
+        </div>
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon">✊</div>
+          <h4 class="pattern-title">Hold and wait</h4>
+          <p class="pattern-desc">You keep fork one while queuing for fork two. Some designs fix deadlock by grabbing both or neither.</p>
+        </div>
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon">🚫</div>
+          <h4 class="pattern-title">No preemption</h4>
+          <p class="pattern-desc">Nobody can snatch a fork from a holder. Some systems add timeouts to break this.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-success)">
+          <div class="pattern-icon" style="background:var(--color-success-light)">🔄</div>
+          <h4 class="pattern-title">Circular wait</h4>
+          <p class="pattern-desc"><strong>This is the one this code attacks.</strong> The odd/even swap makes a perfect ring impossible.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">🤖</div>
+        <div class="callout-content">
+          <strong class="callout-title">Steering an AI with this vocabulary</strong>
+          <p>"It freezes sometimes" gets you guesses. <em>"This can deadlock via circular wait on the fork mutexes — impose a global lock ordering"</em> gets you the correct fix on the first try. Naming the failure mode is most of the work.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 5 ============ -->
+<section class="module" id="module-5">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">05</span>
+    <h1 class="module-title">The referee and the shared whiteboard</h1>
+    <p class="module-subtitle">One thread that watches everyone, one flag that stops everyone, and the reason this project uses three separate locks instead of one.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The metaphor</span>The lifeguard at the pool</h2>
+      <p class="lead">Swimmers swim. They don't check on each other — they're busy. One person sits above the water doing nothing but scanning, every few seconds, for anyone in trouble. The moment they spot one, they blow the whistle and <strong>everybody</strong> gets out.</p>
+      <p>The monitor thread is that lifeguard. It never takes a fork and never eats. It only looks.</p>
+
+      <div class="file-label">monitor.c — monitor_routine()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code>	data = (<span class="code-type">t_data</span> *)arg;
+	<span class="code-keyword">while</span> (!<span class="code-function">check_stop</span>(data))
+	{
+		i = <span class="code-number">0</span>;
+		<span class="code-keyword">while</span> (i &lt; data-&gt;n_philo)
+		{
+			<span class="code-keyword">if</span> (<span class="code-function">is_dead</span>(&amp;data-&gt;philos[i]))
+				<span class="code-keyword">return</span> (<span class="code-function">print_death</span>(&amp;data-&gt;philos[i]), <span class="code-macro">NULL</span>);
+			i++;
+		}
+		<span class="code-keyword">if</span> (data-&gt;must_eat &gt;= <span class="code-number">0</span> &amp;&amp; <span class="code-function">all_ate_enough</span>(data))
+			<span class="code-keyword">return</span> (<span class="code-function">set_stop</span>(data), <span class="code-macro">NULL</span>);
+		<span class="code-function">usleep</span>(<span class="code-number">1000</span>);
+	}
+	<span class="code-keyword">return</span> (<span class="code-macro">NULL</span>);</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl">Unwrap the shared table from the anonymous pointer we were handed.</p>
+            <p class="tl"><strong>Keep patrolling</strong> for as long as nobody has raised the stop flag.</p>
+            <p class="tl"><strong>Walk the whole line of philosophers,</strong> one by one, from the first to the last.</p>
+            <p class="tl"><strong>Is this one starving?</strong> If yes: print the death message and stop patrolling immediately — the show is over.</p>
+            <p class="tl"><strong>Second question:</strong> if the user asked for a meal target, has everyone reached it? If so, raise the stop flag and exit — a happy ending, no death printed.</p>
+            <p class="tl"><strong>Sleep 1 millisecond, then look again.</strong> Without this the monitor would burn an entire processor <span class="term" data-definition="A <b>core</b> is one independent processing unit inside a CPU. A modern laptop has 4–16, which is how threads genuinely run at the same instant rather than merely taking turns.">core</span> spinning as fast as it can.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">⏱️</div>
+        <div class="callout-content">
+          <strong class="callout-title">Polling: the humble pattern that's everywhere</strong>
+          <p>Checking repeatedly on a timer is called <span class="term" data-definition="<b>Polling</b> means repeatedly asking 'is it ready yet?' on a timer, instead of being notified when something happens. Simple and reliable, but it wastes a little work on every check that finds nothing.">polling</span>. That <code>usleep(1000)</code> is the tuning dial: check more often and you detect death more precisely but waste more processor; check less often and a philosopher could be dead for 50ms before you notice. 1ms is the sweet spot when deadlines are measured in hundreds of milliseconds.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The hazard</span>Two people writing on one whiteboard</h2>
+      <p class="lead">A shared whiteboard shows a number. Alice reads it (7), Bob reads it (7), Alice writes 8, Bob writes 8. Two increments happened; the board says 8. <strong>One update vanished</strong> — and no error was reported anywhere.</p>
+      <p>That's a <span class="term" data-definition="A <b>race condition</b> is a bug where the result depends on which thread happens to get there first. The same code can work a thousand times and fail on the thousand-and-first, because the timing changed.">race condition</span>. It's why <code class="inline">stop</code> — a single integer — is never touched directly.</p>
+
+      <div class="file-label">utils.c</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">int</span>	<span class="code-function">check_stop</span>(<span class="code-type">t_data</span> *data)
+{
+	<span class="code-keyword">int</span>	stop;
+
+	<span class="code-function">pthread_mutex_lock</span>(&amp;data-&gt;stop_mtx);
+	stop = data-&gt;stop;
+	<span class="code-function">pthread_mutex_unlock</span>(&amp;data-&gt;stop_mtx);
+	<span class="code-keyword">return</span> (stop);
+}
+
+<span class="code-keyword">void</span>	<span class="code-function">set_stop</span>(<span class="code-type">t_data</span> *data)
+{
+	<span class="code-function">pthread_mutex_lock</span>(&amp;data-&gt;stop_mtx);
+	data-&gt;stop = <span class="code-number">1</span>;
+	<span class="code-function">pthread_mutex_unlock</span>(&amp;data-&gt;stop_mtx);
+}</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>To read the stop flag safely:</strong></p>
+            <p class="tl">Make a private scratch variable to copy it into.</p>
+            <p class="tl"><strong>Take the lock</strong> that guards this flag — nobody else may touch it now.</p>
+            <p class="tl">Copy the value out, then <strong>immediately release the lock.</strong> Hold it for two instructions, not a moment longer. The locked region is called the <span class="term" data-definition="A <b>critical section</b> is the stretch of code between taking a lock and releasing it. Only one thread can be inside at a time, so the shorter it is, the less everyone else waits.">critical section</span>.</p>
+            <p class="tl">Return the private copy. The caller reads a stable snapshot instead of a value that might change mid-read.</p>
+            <p class="tl"><strong>To raise the flag:</strong> same dance — lock, write, unlock. Short, symmetric, and impossible to get halfway through.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">💡</div>
+        <div class="callout-content">
+          <strong class="callout-title">"Even one integer needs a lock"</strong>
+          <p>It's tempting to think a single <code>int</code> is too small to break. It isn't — on real hardware, one thread's write may sit invisible in a processor <span class="term" data-definition="A <b>cache</b> is a small pocket of ultra-fast memory next to each processor core. A value written by one core can linger there, unseen by other cores, for a surprisingly long time — which is why locks matter even for a single number.">cache</span> while another thread reads a stale copy for milliseconds. Wrapping every access in a tiny function like <code>check_stop()</code> means the rule is enforced in exactly one place and can't be forgotten at the call sites.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in wide">
+      <h2 class="screen-heading"><span class="eyebrow">Data flow</span>How a death travels through the program</h2>
+      <p>Nobody tells the monitor that a philosopher died. The monitor <em>infers</em> it from a timestamp, then broadcasts to everyone through one shared integer. Step through the whole journey.</p>
+
+      <div class="flow-animation">
+        <div class="flow-actors" id="flow-actors-5">
+          <div class="flow-actor" id="fa-philo"><div class="flow-actor-icon" style="background:var(--color-actor-3)">P3</div><span>philosopher 3</span></div>
+          <div class="flow-actor" id="fa-meal"><div class="flow-actor-icon" style="background:var(--color-actor-4)">🔒</div><span>meal_mtx</span></div>
+          <div class="flow-actor" id="fa-mon"><div class="flow-actor-icon" style="background:var(--color-actor-2)">👁</div><span>monitor</span></div>
+          <div class="flow-actor" id="fa-stop"><div class="flow-actor-icon" style="background:var(--color-error)">🛑</div><span>stop flag</span></div>
+          <div class="flow-actor" id="fa-all"><div class="flow-actor-icon" style="background:var(--color-actor-1)">👥</div><span>all threads</span></div>
+          <div class="flow-packet" id="flow-packet-5"></div>
+        </div>
+        <div class="flow-step-label" id="flow-label-5">Press "Next step" to follow a death from timestamp to shutdown.</div>
+        <div class="controls">
+          <button class="btn" id="flow-next-5">Next step</button>
+          <button class="btn btn-ghost" id="flow-reset-5">Restart</button>
+          <span class="controls-status" id="flow-progress-5">Step 0 / 8</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Group chat</span>Why three locks and not one</h2>
+
+      <div class="chat-window">
+        <div class="chat-header"><span class="dotlive"></span>#lock-design · 4 members</div>
+        <div class="chat-messages" id="chat-5">
+          <div class="chat-message" data-sender="p1" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-3)">P1</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-3)">philosopher 1</span>
+            <p>Genuine question: why do we have <code>print_mtx</code>, <code>stop_mtx</code> AND <code>meal_mtx</code>? Wouldn't one big lock be simpler?</p></div>
+          </div>
+          <div class="chat-message self" data-sender="mon" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-2)">👁</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-2)">monitor</span>
+            <p>Simpler to write, much slower to run. With one lock, you updating your meal count would block me from printing, and block P4 from reading the stop flag. Everyone queues behind everyone.</p></div>
+          </div>
+          <div class="chat-message" data-sender="p4" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-4)">P4</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-4)">philosopher 4</span>
+            <p>So each lock covers one <em>kind</em> of data. Printing has nothing to do with meal counts, so they never wait on each other.</p></div>
+          </div>
+          <div class="chat-message self" data-sender="mon" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-2)">👁</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-2)">monitor</span>
+            <p>Exactly. Engineers call it <strong>fine-grained locking</strong>. One giant lock is a "coarse" lock — correct, but it serialises everything and throws away the whole point of threads.</p></div>
+          </div>
+          <div class="chat-message" data-sender="p1" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-3)">P1</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-3)">philosopher 1</span>
+            <p>Downside? Three locks feels like three chances to make a mistake.</p></div>
+          </div>
+          <div class="chat-message" data-sender="prn" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-5)">🖨</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-5)">print_status</span>
+            <p>It is. The moment one thread takes locks A-then-B while another takes B-then-A, you've built a deadlock. Look at me: I take <code>print_mtx</code>, then call <code>check_stop()</code> which takes <code>stop_mtx</code>. <code>print_death</code> uses that same order deliberately — print first, stop second. Never the reverse.</p></div>
+          </div>
+          <div class="chat-message self" data-sender="mon" style="display:none">
+            <div class="chat-avatar" style="background:var(--color-actor-2)">👁</div>
+            <div class="chat-bubble"><span class="chat-sender" style="color:var(--color-actor-2)">monitor</span>
+            <p>And that's the rule: <strong>every thread must take locks in the same global order.</strong> Same fix as the forks in module 4, one level up.</p></div>
+          </div>
+        </div>
+        <div class="chat-typing" id="typing-5" style="display:none">
+          <div class="chat-avatar" id="typing-avatar-5">?</div>
+          <div class="chat-typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>
+        </div>
+        <div class="chat-controls">
+          <button class="btn" data-chat-next="5">Next message</button>
+          <button class="btn btn-ghost" data-chat-all="5">Play all</button>
+          <button class="btn btn-ghost" data-chat-reset="5">Replay</button>
+          <span class="controls-status" id="chat-progress-5">0 / 7</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The printer</span>Why nothing prints after a death</h2>
+
+      <div class="file-label">utils.c — print_status()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">void</span>	<span class="code-function">print_status</span>(<span class="code-type">t_philo</span> *philo, <span class="code-keyword">char</span> *msg)
+{
+	<span class="code-keyword">long</span>	t;
+
+	<span class="code-function">pthread_mutex_lock</span>(&amp;philo-&gt;data-&gt;print_mtx);
+	<span class="code-keyword">if</span> (!<span class="code-function">check_stop</span>(philo-&gt;data))
+	{
+		t = <span class="code-function">get_time_ms</span>() - philo-&gt;data-&gt;start_ms;
+		<span class="code-function">printf</span>(<span class="code-string">"%ld %d %s\n"</span>, t, philo-&gt;id, msg);
+	}
+	<span class="code-function">pthread_mutex_unlock</span>(&amp;philo-&gt;data-&gt;print_mtx);
+}</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>The only place in the program that prints anything.</strong> Takes a philosopher and a message.</p>
+            <p class="tl"><strong>Take the printing lock.</strong> Without it, two philosophers printing simultaneously could produce <code>12 1 is 12 3 has taken a fork</code> — genuinely interleaved characters.</p>
+            <p class="tl"><strong>Re-check the stop flag while holding the lock.</strong> This is the subtle part: it guarantees no "is thinking" can slip out after "died" has been printed.</p>
+            <p class="tl">Work out how long since the dinner began, then print <code>timestamp id message</code> — the exact format the log uses.</p>
+            <p class="tl"><strong>Release.</strong> The next philosopher queued at this line now gets their turn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-success">
+        <div class="callout-icon">🎯</div>
+        <div class="callout-content">
+          <strong class="callout-title">A single funnel for output</strong>
+          <p>Every message in the program goes through this one function. That's why the log is always clean, always ordered, and always stops the instant someone dies. Whenever you have many workers writing to one place — a file, a console, a log service — <strong>one guarded funnel</strong> is the answer.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 6 ============ -->
+<section class="module" id="module-6">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">06</span>
+    <h1 class="module-title">Fairness: nobody gets left behind</h1>
+    <p class="module-subtitle">Avoiding deadlock isn't enough. A philosopher can be perfectly free to eat and still starve, because the fast ones never stop.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The metaphor</span>The potluck seconds rule</h2>
+      <p class="lead">There's one dish left. You're hungry and you're standing right next to it — but you already had a helping, and you notice the person beside you hasn't had any. So you wait.</p>
+      <p>That single act of checking your neighbours before serving yourself is the entire content of <code class="inline">should_wait()</code>, and it's the difference between a dinner that survives and one that doesn't.</p>
+
+      <div class="compare">
+        <div class="compare-col bad">
+          <h5>💀 Deadlock</h5>
+          <p><strong>Nobody makes progress.</strong> Everyone is frozen holding one fork. The program hangs silently and uses no CPU. Fixed in module 4.</p>
+        </div>
+        <div class="compare-col bad">
+          <h5>😵 Starvation</h5>
+          <p><strong>Most make progress; one never does.</strong> The program looks perfectly healthy, output keeps flowing — and philosopher 3 quietly dies at 410ms. Fixed here.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">🕵️</div>
+        <div class="callout-content">
+          <strong class="callout-title">Starvation is the harder bug by far</strong>
+          <p>Deadlock announces itself — everything stops. Starvation hides: the program runs, the log scrolls, and one participant is silently never served. The same shape shows up as one API caller always losing to the others, or one queue job never picked up. If an AI tells you "the deadlock is fixed," the follow-up question is always <em>"and is it fair?"</em></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The rule</span>Check both neighbours before reaching</h2>
+
+      <div class="file-label">utils.c — should_wait()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code>	left = &amp;data-&gt;philos[(philo-&gt;left_fork - <span class="code-number">1</span> + data-&gt;n_philo)
+		% data-&gt;n_philo];
+	right = &amp;data-&gt;philos[philo-&gt;right_fork];
+	<span class="code-function">pthread_mutex_lock</span>(&amp;data-&gt;meal_mtx);
+	wait = <span class="code-number">0</span>;
+	<span class="code-keyword">if</span> ((data-&gt;must_eat &lt; <span class="code-number">0</span> || left-&gt;meals_eaten &lt; data-&gt;must_eat)
+		&amp;&amp; philo-&gt;last_meal_ms &gt; left-&gt;last_meal_ms)
+		wait = <span class="code-number">1</span>;
+	<span class="code-keyword">if</span> ((data-&gt;must_eat &lt; <span class="code-number">0</span> || right-&gt;meals_eaten &lt; data-&gt;must_eat)
+		&amp;&amp; philo-&gt;last_meal_ms &gt; right-&gt;last_meal_ms)
+		wait = <span class="code-number">1</span>;
+	<span class="code-function">pthread_mutex_unlock</span>(&amp;data-&gt;meal_mtx);
+	<span class="code-keyword">return</span> (wait);</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Find the philosopher on my left.</strong> The <code>+ n_philo</code> then <code>%</code> is the classic trick for <span class="term" data-definition="<b>Wrapping around</b> means treating a list as a circle, so going past the last item returns you to the first. Essential whenever things are arranged in a ring — as at this table.">wrapping around</span> a circle — it turns "one before philosopher 0" into "the last philosopher" instead of a crash.</p>
+            <p class="tl"><strong>Find the philosopher on my right.</strong> Simpler: their index is already stored.</p>
+            <p class="tl"><strong>Lock the meal records</strong> before reading anyone's <span class="term" data-definition="These are <b>shared variables</b> — values living in memory that more than one thread can see. Any shared variable read without its lock can hand you a half-updated value.">numbers</span> — those are being updated by other threads constantly.</p>
+            <p class="tl">Assume I don't need to wait, then look for a reason to.</p>
+            <p class="tl"><strong>Left neighbour:</strong> if they still need meals, <em>and</em> my last meal was more recent than theirs (meaning they're hungrier), then I hold back.</p>
+            <p class="tl"><strong>Right neighbour:</strong> identical check on the other side.</p>
+            <p class="tl">Release the lock and report back: should I wait, yes or no?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">⏳</div>
+        <div class="callout-content">
+          <strong class="callout-title">"Later last meal" means "less hungry"</strong>
+          <p><code>philo->last_meal_ms > left->last_meal_ms</code> reads as "I ate more recently than they did." A <em>bigger</em> <span class="term" data-definition="A <b>timestamp</b> is a moment in time recorded as a plain number — here, milliseconds since the dinner started. Bigger always means later.">timestamp</span> means a <em>more recent</em> meal, which means <em>less</em> hunger. Timestamps compared as plain numbers trip people up constantly — always translate to "more recent" out loud.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Where it's used</span>The waiting room</h2>
+
+      <div class="file-label">simulation.c — top of take_forks()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code>	<span class="code-keyword">while</span> (!<span class="code-function">check_stop</span>(philo-&gt;data) &amp;&amp; <span class="code-function">should_wait</span>(philo))
+		<span class="code-function">usleep</span>(<span class="code-number">300</span>);
+	<span class="code-keyword">if</span> (<span class="code-function">check_stop</span>(philo-&gt;data))
+		<span class="code-keyword">return</span> (<span class="code-number">0</span>);</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Loop while two things are both true:</strong> the dinner hasn't been called off, <em>and</em> a neighbour is hungrier than me.</p>
+            <p class="tl"><strong>Pause 300 <span class="term" data-definition="A <b>microsecond</b> is one millionth of a second — a thousand of them make one millisecond. Short enough that re-checking costs almost nothing, long enough not to burn the processor.">microseconds</span>, then re-check.</strong> Not a fixed delay — a re-evaluation. The instant my neighbour eats, their timestamp updates and I'm free to go.</p>
+            <p class="tl"><strong>Escape hatch:</strong> if we left the loop because the program is stopping (not because it's my turn), return 0 — which tells <code>routine()</code> to break out and finish, without taking any forks.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🧠</div>
+        <div class="callout-content">
+          <strong class="callout-title">Two exits, two meanings</strong>
+          <p>This little loop can end for a good reason (my turn) or a bad one (shutdown), so the code checks <em>which</em> immediately after. Any wait-loop in any program needs this — a <span class="term" data-definition="A <b>loop</b> is code that repeats until some condition becomes false. The commonest cause of a frozen program is a loop whose exit condition never becomes true.">loop</span> that can only end one way will hang forever the day something unexpected happens.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">See it work</span>Fair versus greedy</h2>
+      <p>A working model of 5 philosophers. Same forks, same odd/even ordering, same timings — <strong>the only difference is whether <code class="inline">should_wait()</code> runs first.</strong> Thread order is randomised each tick, because a real operating system gives no guarantees about who wakes up first.</p>
+
+      <div class="flow-animation">
+        <div class="tabs">
+          <button class="tab active" data-fair-mode="greedy">❌ Greedy: grab as soon as forks are free</button>
+          <button class="tab" data-fair-mode="fair">✅ Actual code: should_wait() first</button>
+        </div>
+        <div id="fair-bars"></div>
+        <div class="flow-step-label" id="fair-label">Press run to simulate 5 philosophers for 2000 milliseconds.</div>
+        <div class="controls">
+          <button class="btn" id="fair-play">▶ Run once</button>
+          <button class="btn btn-ghost" id="fair-batch">⚡ Run 400 times</button>
+          <button class="btn btn-ghost" id="fair-reset">Reset</button>
+          <span class="controls-status" id="fair-status">t = 0 ms</span>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">🎲</div>
+        <div class="callout-content">
+          <strong class="callout-title">Run the greedy version once. Then run it 400 times.</strong>
+          <p>A single greedy run often finishes perfectly happily — which is exactly the trap. Press <strong>Run 400 times</strong> and the truth appears: it kills somebody in roughly four runs out of ten, and <em>which</em> philosopher dies changes every time. This is what "works on my machine" looks like from the inside.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 7 ============ -->
+<section class="module" id="module-7">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">07</span>
+    <h1 class="module-title">When it breaks</h1>
+    <p class="module-subtitle">Concurrency bugs don't crash — they lie. Here's how to catch them, including one that's actually in this code right now.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The metaphor</span>The symptom that stops when the doctor walks in</h2>
+      <p class="lead">The most frustrating patient complaint is the intermittent one: the noise your car makes right up until the mechanic listens. Threading bugs behave exactly like this — and worse, <strong>the act of observing changes them</strong>.</p>
+      <p>Add a print statement to find a race condition and the print's timing can hide the very bug you were hunting. Engineers call these <span class="term" data-definition="A <b>heisenbug</b> is a bug that changes or disappears when you try to observe it — named after Heisenberg's uncertainty principle. Common in threaded code, where adding a print statement alters the timing that caused the bug.">heisenbugs</span>.</p>
+
+      <div class="pattern-cards stagger-children">
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-error)">
+          <div class="pattern-icon" style="background:var(--color-error-light)">🧊</div>
+          <h4 class="pattern-title">It hangs</h4>
+          <p class="pattern-desc">Output stops, CPU near 0%. That's <strong>deadlock</strong>. Look for two locks taken in different orders somewhere.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-accent)">
+          <div class="pattern-icon">🔥</div>
+          <h4 class="pattern-title">It hangs, CPU at 100%</h4>
+          <p class="pattern-desc">A <b><span class="term" data-definition="A <b>spin loop</b> is a loop that checks a condition as fast as the processor allows, with no pause. It works, but it pins a CPU core at 100% doing nothing useful. Adding a tiny sleep fixes it.">spin loop</span></b> with no sleep in it. Somewhere a <code class="inline">while</code> is checking a condition as fast as the machine allows.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-actor-4)">
+          <div class="pattern-icon" style="background:#FBF3DC">🎲</div>
+          <h4 class="pattern-title">It works 9 times in 10</h4>
+          <p class="pattern-desc">A <strong>race condition</strong>. Shared data being read or written without its lock. Run it 500 times in a loop to reproduce.</p>
+        </div>
+        <div class="pattern-card animate-in" style="border-top-color:var(--color-actor-2)">
+          <div class="pattern-icon" style="background:var(--color-info-light)">📉</div>
+          <h4 class="pattern-title">One participant is silent</h4>
+          <p class="pattern-desc"><strong>Starvation.</strong> Nothing is broken — one worker just never wins. Count actions per participant to confirm.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Your turn</span>There is a real bug in this file</h2>
+      <p>This is <code class="inline">routine()</code> from <code class="inline">simulation.c</code>, exactly as written, at its real line numbers. Every philosopher runs this loop. <strong>One line does not do what the log says it does.</strong> Click it.</p>
+
+      <div class="bug-challenge">
+        <h4>🐛 Which line contradicts the message printed right above it?</h4>
+        <div class="bug-code" id="bug-code-1">
+          <div class="bug-line" data-correct="false"><span class="line-num">71</span><code>	while (!check_stop(philo->data) && (philo->data->must_eat < 0</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">72</span><code>			|| philo->meals_eaten < philo->data->must_eat))</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">73</span><code>	{</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">74</span><code>		if (!take_forks(philo))</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">75</span><code>			break ;</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">76</span><code>		philo_eat(philo);</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">77</span><code>		release_forks(philo);</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">78</span><code>		print_status(philo, "is sleeping");</code></div>
+          <div class="bug-line" data-correct="true"><span class="line-num">79</span><code>		usleep(1000);</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">80</span><code>		print_status(philo, "is thinking");</code></div>
+          <div class="bug-line" data-correct="false"><span class="line-num">81</span><code>	}</code></div>
+        </div>
+        <div class="bug-feedback" id="bug-feedback-1"></div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The proof</span>The log gives it away</h2>
+      <p>Run <code class="inline">./philo 3 610 200 200 2</code> and read the timestamps. <code class="inline">time_to_sleep</code> is 200ms, so "is thinking" should appear 200ms after "is sleeping."</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot" style="background:#F38BA8"></span>
+          <span class="terminal-dot" style="background:#F9E2AF"></span>
+          <span class="terminal-dot" style="background:#A6E3A1"></span>
+          <span class="terminal-cmd">$ ./philo 3 610 200 200 2</span>
+        </div>
+        <div class="terminal-body" style="height:auto">
+          <div class="tline"><span class="tline-ms">0</span><span class="tline-id" style="color:#A6E3A1">2</span><span class="tline-msg">has taken a fork</span></div>
+          <div class="tline"><span class="tline-ms">0</span><span class="tline-id" style="color:#A6E3A1">2</span><span class="tline-msg">has taken a fork</span></div>
+          <div class="tline"><span class="tline-ms">0</span><span class="tline-id" style="color:#A6E3A1">2</span><span class="tline-msg">is eating</span></div>
+          <div class="tline"><span class="tline-ms">201</span><span class="tline-id" style="color:#A6E3A1">2</span><span class="tline-msg">is sleeping</span><span class="tline-hint">← nap starts</span></div>
+          <div class="tline"><span class="tline-ms">202</span><span class="tline-id" style="color:#A6E3A1">2</span><span class="tline-msg">is thinking</span><span class="tline-hint">← 1 ms later, not 200</span></div>
+        </div>
+      </div>
+
+      <div class="compare">
+        <div class="compare-col bad">
+          <h5>❌ What's there</h5>
+          <pre>print_status(philo, "is sleeping");
+usleep(1000);</pre>
+          <p>Announces a 200ms nap, sleeps for 1ms. Philosophers eat far more often than the parameters say, which quietly masks any starvation problem the code might have.</p>
+        </div>
+        <div class="compare-col good">
+          <h5>✅ What it should be</h5>
+          <pre>print_status(philo, "is sleeping");
+usleep(philo->data->t_sleep * 1000);</pre>
+          <p><code>usleep</code> counts <em>microseconds</em>, so milliseconds must be multiplied by 1000 — exactly like <code>philo_eat()</code> already does on line 54.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">🔬</div>
+        <div class="callout-content">
+          <strong class="callout-title">The bug that makes tests pass</strong>
+          <p>This is the dangerous kind: it makes the program look <em>healthier</em>. Skipping the nap means forks return to the table sooner, so fewer philosophers die and the simulation survives parameters it shouldn't. A fix here may reveal starvation that was hiding behind it — that's not the <span class="term" data-definition="A <b>regression</b> is when a change breaks something that used to work. Not every new failure after a fix is a regression — sometimes the old behaviour was wrong and the fix simply stopped hiding it.">fix</span> breaking things, it's the fix telling the truth.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The edge case</span>One philosopher, one fork</h2>
+      <p>With <code class="inline">n_philo == 1</code> there is a single fork, and eating needs two. That philosopher is doomed by the rules of the problem — but the code still has to behave correctly on the way down.</p>
+
+      <div class="file-label">simulation.c — routine()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code>	<span class="code-keyword">if</span> (philo-&gt;data-&gt;n_philo == <span class="code-number">1</span>)
+	{
+		<span class="code-function">pthread_mutex_lock</span>(&amp;philo-&gt;data-&gt;forks[philo-&gt;left_fork]);
+		<span class="code-function">print_status</span>(philo, <span class="code-string">"has taken a fork"</span>);
+		<span class="code-keyword">while</span> (!<span class="code-function">check_stop</span>(philo-&gt;data))
+			<span class="code-function">usleep</span>(philo-&gt;data-&gt;t_die * <span class="code-number">1000</span>);
+		<span class="code-function">pthread_mutex_unlock</span>(&amp;philo-&gt;data-&gt;forks[philo-&gt;left_fork]);
+		<span class="code-keyword">return</span> (<span class="code-macro">NULL</span>);
+	}</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Special case, handled before the main loop.</strong> Only one philosopher at the table.</p>
+            <p class="tl">Take the one fork that exists and announce it — the expected output demands this line appear.</p>
+            <p class="tl"><strong>Now just wait to die.</strong> There's no second fork coming, ever. Sleep in <code>t_die</code>-sized chunks until the monitor declares the death and raises the stop flag.</p>
+            <p class="tl"><strong>Put the fork back and exit cleanly.</strong> Even though we're dying, the lock is released — otherwise <code>pthread_mutex_destroy</code> in cleanup would fail on a still-locked mutex.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🧯</div>
+        <div class="callout-content">
+          <strong class="callout-title">Clean up on the failure path too</strong>
+          <p>That unlock on the way to certain death is the mark of careful code. The most common source of resource leaks is code that tidies up correctly when things succeed and forgets entirely when they fail. Worth checking every time an AI hands you error-handling code.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Your toolkit</span>Four commands worth knowing</h2>
+      <div class="badge-list stagger-children">
+        <div class="badge-item animate-in"><code class="badge-code">valgrind ./philo 4 410 200 200</code><span class="badge-desc">Reports a <span class="term" data-definition="A <b>memory leak</b> is memory a program reserved and never returned. In a short program it's harmless; in a server running for weeks it eventually consumes all available memory and crashes.">memory leak</span> — memory allocated and never freed. Slow, but finds leaks you'd never see otherwise.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">valgrind --tool=helgrind ./philo …</code><span class="badge-desc">The specialist tool for this project: detects <span class="term" data-definition="A <b>data race</b> is two threads touching the same memory at the same time with at least one of them writing. It's the precise, technical name for the bug class that causes most threading weirdness.">data races</span> — data touched without a lock and lock orders that could deadlock — <em>even on runs where nothing goes wrong</em>.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">-fsanitize=thread</code><span class="badge-desc">A <span class="term" data-definition="A <b>compiler flag</b> is an option you add when turning source code into a program, changing how it's built. This one bakes race-detection machinery into the program itself.">compiler flag</span> that builds race detection directly into the program. Add it to <code class="inline">CFLAGS</code> in the Makefile.</span></div>
+        <div class="badge-item animate-in"><code class="badge-code">for i in $(seq 200); do ./philo 5 610 200 200; done</code><span class="badge-desc">The blunt instrument. Run it hundreds of times — a bug that appears in 1 run of 50 will show up here.</span></div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🪤</div>
+        <div class="callout-content">
+          <strong class="callout-title">A gotcha that isn't a bug</strong>
+          <p>Pipe this program into <code>head</code> or kill it with <code>timeout</code> and you may see <em>no output at all</em>. Nothing is broken: when output goes to a pipe instead of a screen, C <span class="term" data-definition="<b>Buffering</b> means collecting output in memory and writing it out in big chunks, which is much faster than one character at a time. The catch: if the program is killed abruptly, whatever is still in the buffer is lost.">buffers</span> it in blocks and an abrupt kill discards the buffer. Use the <code>must_eat</code> argument to make it exit on its own instead — that flushes properly.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ MODULE 8 ============ -->
+<section class="module" id="module-8">
+<div class="module-content">
+  <header class="module-header animate-in">
+    <span class="module-number">08</span>
+    <h1 class="module-title">The whole machine</h1>
+    <p class="module-subtitle">Everything you've seen, assembled — plus the vocabulary that makes all of it portable to any project you touch next.</p>
+  </header>
+
+  <div class="module-body">
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Start to finish</span>The complete lifecycle</h2>
+      <div class="step-cards stagger-children">
+        <div class="step-card animate-in"><div class="step-num">1</div><div class="step-body"><strong>Validate</strong><p><code>main()</code> checks the argument count, then <code>ft_atoi()</code> rejects anything that isn't a positive whole number. Nothing else runs until this passes.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">2</div><div class="step-body"><strong>Build the world</strong><p><code>fill_data_struct()</code> allocates the shared box, creates 3 <span class="term" data-definition="<b>Global</b> here means shared by the whole program rather than owned by one philosopher. Global state is convenient and is exactly what needs locking.">global</span> locks plus one lock per fork, and assigns each philosopher their two fork indices. Every <span class="term" data-definition="A <b>failure path</b> is the branch of code that runs when something goes wrong. Well-written failure paths undo whatever earlier steps succeeded — otherwise a partial failure leaves resources stranded.">failure path</span> undoes the steps before it.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">3</div><div class="step-body"><strong>Start the clock, launch N+1 threads</strong><p>Everyone's <code>last_meal_ms</code> is set to now, then <code>pthread_create</code> starts N philosophers plus the monitor.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">4</div><div class="step-body"><strong>The loop</strong><p>Each philosopher: check neighbours → take two forks in odd/even order → record the meal → eat → release both → sleep → think → repeat.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">5</div><div class="step-body"><strong>The watch</strong><p>Every millisecond the monitor scans for starvation and for "everyone's had enough." Either one raises the stop flag.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">6</div><div class="step-body"><strong>Shutdown</strong><p>Philosophers see the flag, break their loops, return. <code>pthread_join</code> collects all N+1. Only then does <code>destroy_data()</code> free anything.</p></div></div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The three ideas</span>What this project is really teaching</h2>
+      <div class="icon-rows stagger-children">
+        <div class="icon-row animate-in">
+          <div class="icon-circle" style="background:var(--color-actor-1)">🔒</div>
+          <div><strong>Shared state must be guarded — all of it, everywhere</strong>
+          <p>Every field touched by more than one thread has a named lock: forks, meal records, the stop flag, the output stream. One unguarded access anywhere voids the protection everywhere.</p></div>
+        </div>
+        <div class="icon-row animate-in">
+          <div class="icon-circle" style="background:var(--color-actor-2)">🔄</div>
+          <div><strong>Consistent lock ordering prevents deadlock</strong>
+          <p>Odd/even fork ordering for philosophers; print-then-stop ordering for the monitor. Same principle at two scales: if everyone takes locks in the same order, a circular wait cannot form.</p></div>
+        </div>
+        <div class="icon-row animate-in">
+          <div class="icon-circle" style="background:var(--color-actor-5)">⚖️</div>
+          <div><strong>Correct isn't the same as fair</strong>
+          <p><code>should_wait()</code> exists purely so no philosopher is left behind. A system can be free of deadlocks and <span class="term" data-definition="A <b>race</b> (race condition) is a bug where the outcome depends on which thread arrives first. Named because the threads are effectively racing, and the winner changes run to run.">races</span> and still quietly fail one participant forever.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">The last function</span>Taking the world apart in the right order</h2>
+      <p>Every course so far has been about starting things. Here's the one that ends them — and the order of these four lines is not negotiable.</p>
+
+      <div class="file-label">cleanup.c — destroy_data()</div>
+      <div class="translation-block">
+        <div class="translation-code">
+          <span class="translation-label">code</span>
+          <pre><code><span class="code-keyword">void</span>	<span class="code-function">destroy_data</span>(<span class="code-type">t_data</span> *data)
+{
+	<span class="code-keyword">if</span> (!data)
+		<span class="code-keyword">return</span> ;
+	<span class="code-function">destroy_forks</span>(data);
+	<span class="code-keyword">if</span> (data-&gt;philos)
+		<span class="code-function">free</span>(data-&gt;philos);
+	<span class="code-function">destroy_global_mutex</span>(data);
+	<span class="code-function">free</span>(data);
+}</code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">plain english</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>Guard clause first.</strong> If we were handed nothing, do nothing. This one line is why <code>main</code> can safely call cleanup on any failure path without checking anything itself.</p>
+            <p class="tl"><strong>Destroy the fork locks,</strong> then release the memory they lived in — that happens inside <code>destroy_forks()</code>. Destroying a lock <em>after</em> freeing its memory would read memory that no longer belongs to us.</p>
+            <p class="tl"><strong>Free the philosopher records.</strong> Safe now: all their threads were joined before this function was ever called.</p>
+            <p class="tl"><strong>Destroy the three global locks</strong> — print, stop, meal. They live inside the <code>data</code> box, so they must go before the box does.</p>
+            <p class="tl"><strong>Free the box itself,</strong> last of all. Innermost things first, outermost things last — the exact reverse of the order they were created in.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">🪆</div>
+        <div class="callout-content">
+          <strong class="callout-title">Teardown mirrors setup, backwards</strong>
+          <p>Setup went box → locks → forks → philosophers. Teardown goes philosophers → forks → locks → box. When you review cleanup code — yours or an AI's — read it bottom-up against the setup and check that it's a mirror image. Anything out of order is a crash waiting for the right moment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Interactive</span>Five questions for any threaded code</h2>
+      <p>This is the transferable part. Ask these of any concurrent code an AI writes for you — click each to see how this project answers it.</p>
+
+      <div class="arch-diagram">
+        <div class="arch-zone">
+          <div class="arch-zone-label">Click a question</div>
+          <div class="arch-row" style="flex-direction:column">
+            <div class="arch-component" data-q="<b>Answer:</b> Four things — the forks (one mutex each), the meal records (meal_mtx), the stop flag (stop_mtx), and the output stream (print_mtx). Every single one has a named lock. If you cannot produce this list for a piece of code, nobody knows whether it is safe." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-1)">1</div><span>What data is shared, and which lock guards each piece?</span></div>
+            <div class="arch-component" data-q="<b>Answer:</b> Yes — <code>take_forks()</code> orders by odd/even id, and <code>print_death()</code> always takes print_mtx before stop_mtx. Two locks taken in two different orders anywhere in the codebase is a deadlock waiting to happen, no matter how unlikely it looks." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-2)">2</div><span>Does every thread take locks in the same order?</span></div>
+            <div class="arch-component" data-q="<b>Answer:</b> Yes — <code>should_wait()</code> makes anyone who ate most recently yield to a hungrier neighbour. Without it the program is still deadlock-free and still crashes, just less predictably. Correctness and fairness are separate properties and need separate answers." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-3)">3</div><span>Can any participant be starved out?</span></div>
+            <div class="arch-component" data-q="<b>Answer:</b> One shared integer, <code>stop</code>, read constantly by everyone through <code>check_stop()</code>. Every loop in the program can exit through it. A worker with no shutdown path is a worker you cannot stop without killing the whole process." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-4)">4</div><span>How does a thread learn it should stop?</span></div>
+            <div class="arch-component" data-q="<b>Answer:</b> <code>pthread_join</code> on all N+1 threads first, then <code>destroy_data()</code> — never the other way round. Freeing memory that a live thread is still standing in is a use-after-free, and it usually shows up as a crash somewhere completely unrelated." role="button" tabindex="0"><div class="arch-icon" style="background:var(--color-actor-5)">5</div><span>Is everything joined before anything is freed?</span></div>
+          </div>
+        </div>
+        <div class="arch-description" id="arch-desc-8">Click any question above to see this project's answer.</div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Vocabulary</span>Words that work in every language</h2>
+      <p>These aren't C words — they're <span class="term" data-definition="<b>Concurrency</b> is a program doing several things at once. Every idea in this course — locks, deadlock, races, fairness — belongs to concurrency, not to C, and transfers directly to any language.">concurrency</span> words. They mean the same thing in Python, Go, Rust and JavaScript, and using them precisely is the fastest way to get a correct answer out of an AI assistant.</p>
+
+      <div class="vocab-grid">
+        <div class="vocab-card"><span class="vocab-term">thread</span><p class="vocab-def">An independent line of execution inside one program, sharing memory with the others.</p></div>
+        <div class="vocab-card"><span class="vocab-term">mutex</span><p class="vocab-def">A lock only one thread can hold at a time. Others freeze until it's released.</p></div>
+        <div class="vocab-card"><span class="vocab-term">critical section</span><p class="vocab-def">The lines between lock and unlock. Keep them as short as possible.</p></div>
+        <div class="vocab-card"><span class="vocab-term">race condition</span><p class="vocab-def">A bug whose outcome depends on which thread arrives first. Intermittent by nature.</p></div>
+        <div class="vocab-card"><span class="vocab-term">deadlock</span><p class="vocab-def">Two or more threads each waiting for a lock the other holds. Nothing moves, ever.</p></div>
+        <div class="vocab-card"><span class="vocab-term">starvation</span><p class="vocab-def">One participant never gets its turn, while everything else runs fine.</p></div>
+        <div class="vocab-card"><span class="vocab-term">lock ordering</span><p class="vocab-def">The rule that all threads acquire locks in one agreed sequence. The standard deadlock cure.</p></div>
+        <div class="vocab-card"><span class="vocab-term">fine-grained locking</span><p class="vocab-def">Many small locks over separate data, instead of one big lock over everything.</p></div>
+        <div class="vocab-card"><span class="vocab-term">polling</span><p class="vocab-def">Repeatedly checking on a timer rather than waiting to be notified.</p></div>
+        <div class="vocab-card"><span class="vocab-term">watchdog</span><p class="vocab-def">A dedicated observer that watches for failure and shuts things down. Our monitor thread.</p></div>
+        <div class="vocab-card"><span class="vocab-term">join</span><p class="vocab-def">Waiting for a thread to finish before continuing. Skip it and you free memory still in use.</p></div>
+        <div class="vocab-card"><span class="vocab-term">graceful shutdown</span><p class="vocab-def">Signalling every worker to stop, waiting for each, then releasing resources — in that order.</p></div>
+      </div>
+    </section>
+
+    <section class="screen animate-in">
+      <h2 class="screen-heading"><span class="eyebrow">Where to go next</span>Three experiments in this repo</h2>
+      <div class="step-cards stagger-children">
+        <div class="step-card animate-in"><div class="step-num">A</div><div class="step-body"><strong>Fix the sleep bug, then find out what it was hiding</strong><p>Change line 79 to <code>usleep(philo->data->t_sleep * 1000)</code>, rebuild with <code>make re</code>, and run <code>./philo 4 410 200 200</code>. If <span class="term" data-definition="A <b>regression test</b> would catch this: run the program with known-good parameters and assert nobody dies. Automating that check is how you stop a fix in one place from quietly breaking another.">deaths</span> start appearing, the timing was always this tight — the 1ms nap was covering for it.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">B</div><div class="step-body"><strong>Cause a deadlock on purpose</strong><p>In <code>take_forks()</code>, make both branches of the odd/even check identical so everyone grabs left first. Run with 5 philosophers. Watch the program freeze at exactly 5 "has taken a fork" lines — module 4, live.</p></div></div>
+        <div class="step-card animate-in"><div class="step-num">C</div><div class="step-body"><strong>Remove a lock and hunt the race</strong><p>Make <code>check_stop()</code> read <code>data->stop</code> without locking. It will probably still work — that's the lesson. Then run it under <code>valgrind --tool=helgrind</code> and watch it report the <span class="term" data-definition="A <b>race</b> detected by a tool is proof, not a guess. Helgrind spots unlocked shared access even on runs where the output happens to be correct — which is precisely why tools beat eyeballs here.">race</span> the naked eye can't see.</p></div></div>
+      </div>
+
+      <div class="callout callout-success">
+        <div class="callout-icon">🎓</div>
+        <div class="callout-content">
+          <strong class="callout-title">You can now read threaded code</strong>
+          <p>Locks, shared state, watchdogs, ordering and fairness are the same five questions in a web server handling 10,000 connections or a database committing transactions. The scale changes; the questions don't. Ask them of any threaded code an AI writes for you and you'll catch the majority of what it gets wrong.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</section>
+
+
+<footer class="outro">
+  <h2>That's the whole program.</h2>
+  <p>Seven files, under 600 lines, and inside them: threads, mutexes, deadlock, race conditions, starvation, and a watchdog. These are the same ideas that run databases, web servers, and operating systems.</p>
+  <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-8)">philo · built for humans who read code before they write it</p>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- STAGGER ---------- */
+document.querySelectorAll('.stagger-children').forEach(function(parent){
+  Array.prototype.forEach.call(parent.children, function(child, i){
+    child.style.setProperty('--stagger-index', i);
+  });
+});
+
+/* ---------- REVEAL ---------- */
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if (entry.isIntersecting){
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+document.querySelectorAll('.animate-in').forEach(function(el){ observer.observe(el); });
+
+/* ---------- NAV + PROGRESS ---------- */
+var progressBar = document.getElementById('progress-bar');
+var navDots = Array.prototype.slice.call(document.querySelectorAll('.nav-dot'));
+var sections = navDots.map(function(d){ return document.getElementById(d.dataset.target); }).filter(Boolean);
+var ticking = false;
+
+function onScroll(){
+  var scrollTop = window.scrollY;
+  var scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  progressBar.style.width = progress + '%';
+  progressBar.setAttribute('aria-valuenow', Math.round(progress));
+
+  var mid = scrollTop + window.innerHeight * 0.35;
+  var currentIdx = 0;
+  sections.forEach(function(sec, i){ if (sec && sec.offsetTop <= mid) currentIdx = i; });
+  navDots.forEach(function(dot, i){
+    dot.classList.toggle('current', i === currentIdx);
+    dot.classList.toggle('visited', i < currentIdx);
+  });
+  ticking = false;
+}
+window.addEventListener('scroll', function(){
+  if (!ticking){ ticking = true; requestAnimationFrame(onScroll); }
+}, { passive: true });
+onScroll();
+
+navDots.forEach(function(dot){
+  dot.addEventListener('click', function(){
+    var el = document.getElementById(dot.dataset.target);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+document.addEventListener('keydown', function(e){
+  if (['INPUT','TEXTAREA','SELECT'].indexOf(e.target.tagName) !== -1) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var idx = navDots.findIndex(function(d){ return d.classList.contains('current'); });
+  if (idx < 0) idx = 0;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight'){
+    if (sections[idx+1]) { sections[idx+1].scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+  }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft'){
+    if (sections[idx-1]) { sections[idx-1].scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+  }
+});
+
+/* ---------- GLOSSARY TOOLTIPS ---------- */
+var activeTooltip = null;
+function hideTooltip(){
+  if (activeTooltip){
+    activeTooltip.classList.remove('visible');
+    var t = activeTooltip;
+    setTimeout(function(){ if (t.parentNode) t.parentNode.removeChild(t); }, 160);
+    activeTooltip = null;
+  }
+  document.querySelectorAll('.term.active').forEach(function(t){ t.classList.remove('active'); });
+}
+function positionTooltip(term, tip){
+  document.body.appendChild(tip);
+  var rect = term.getBoundingClientRect();
+  var tipWidth = tip.offsetWidth;
+  var left = rect.left + rect.width / 2 - tipWidth / 2;
+  left = Math.max(8, Math.min(left, window.innerWidth - tipWidth - 8));
+  tip.style.left = left + 'px';
+  var tipHeight = tip.offsetHeight;
+  if (rect.top - tipHeight - 10 < 8){
+    tip.style.top = (rect.bottom + 10) + 'px';
+    tip.classList.add('flip');
+  } else {
+    tip.style.top = (rect.top - tipHeight - 10) + 'px';
+    tip.classList.remove('flip');
+  }
+}
+function makeTip(term){
+  var tip = document.createElement('span');
+  tip.className = 'term-tooltip';
+  tip.innerHTML = term.dataset.definition;
+  return tip;
+}
+document.querySelectorAll('.term').forEach(function(term){
+  term.setAttribute('tabindex','0');
+  term.setAttribute('role','button');
+  var show = function(){
+    hideTooltip();
+    var tip = makeTip(term);
+    positionTooltip(term, tip);
+    requestAnimationFrame(function(){ tip.classList.add('visible'); });
+    term.classList.add('active');
+    activeTooltip = tip;
+  };
+  term.addEventListener('mouseenter', show);
+  term.addEventListener('focus', show);
+  term.addEventListener('mouseleave', hideTooltip);
+  term.addEventListener('blur', hideTooltip);
+  term.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (activeTooltip && term.classList.contains('active')) hideTooltip();
+    else show();
+  });
+});
+document.addEventListener('click', hideTooltip);
+window.addEventListener('scroll', function(){ if (activeTooltip) hideTooltip(); }, { passive: true });
+
+/* ================= ROUND TABLE BUILDER ================= */
+function buildTable(el, n, opts){
+  opts = opts || {};
+  el.innerHTML = '';
+  var surface = document.createElement('div');
+  surface.className = 'table-surface';
+  surface.innerHTML = '<span class="table-center-label">' + (opts.centerLabel || 'elapsed') + '</span>' +
+                      '<span class="table-center-value" data-center>0 ms</span>';
+  el.appendChild(surface);
+
+  var philos = [], forks = [];
+  var rP = 40, rF = 26;
+  for (var i = 0; i < n; i++){
+    var a = (-90 + i * 360 / n) * Math.PI / 180;
+    var p = document.createElement('div');
+    p.className = 'tv-philo';
+    p.style.left = (50 + rP * Math.cos(a)) + '%';
+    p.style.top  = (50 + rP * Math.sin(a)) + '%';
+    p.innerHTML = '<span class="pid">' + (i + 1) + '</span><span class="pst">idle</span>';
+    el.appendChild(p);
+    philos.push(p);
+
+    /* fork i sits between philosopher i-1 and philosopher i */
+    var af = (-90 + (i - 0.5) * 360 / n) * Math.PI / 180;
+    var f = document.createElement('div');
+    f.className = 'tv-fork';
+    f.style.left = (50 + rF * Math.cos(af)) + '%';
+    f.style.top  = (50 + rF * Math.sin(af)) + '%';
+    f.textContent = '🍴';
+    el.appendChild(f);
+    forks.push(f);
+  }
+  return {
+    philos: philos, forks: forks,
+    center: surface.querySelector('[data-center]'),
+    setState: function(i, st, label){
+      var p = philos[i];
+      p.className = 'tv-philo ' + st;
+      p.querySelector('.pst').textContent = label || st;
+    },
+    setFork: function(i, held){ forks[i].classList.toggle('held', !!held); },
+    reset: function(){
+      philos.forEach(function(p){ p.className = 'tv-philo'; p.querySelector('.pst').textContent = 'idle'; });
+      forks.forEach(function(f){ f.classList.remove('held'); });
+    }
+  };
+}
+
+/* ================= MODULE 1 — REAL LOG REPLAY ================= */
+(function(){
+  var host = document.getElementById('viz-1');
+  var term = document.getElementById('term-1');
+  if (!host || !term) return;
+
+  var LOG = [
+    [1,2,"has taken a fork"],[1,2,"has taken a fork"],[1,2,"is eating"],[1,3,"has taken a fork"],
+    [201,2,"is sleeping"],[201,1,"has taken a fork"],[201,1,"has taken a fork"],[201,1,"is eating"],
+    [201,3,"has taken a fork"],[201,3,"is eating"],[202,2,"is thinking"],
+    [401,1,"is sleeping"],[401,3,"is sleeping"],[401,2,"has taken a fork"],[401,2,"has taken a fork"],
+    [401,2,"is eating"],[401,4,"has taken a fork"],[401,4,"has taken a fork"],[401,4,"is eating"],
+    [402,1,"is thinking"],[402,3,"is thinking"],
+    [601,2,"is sleeping"],[601,4,"is sleeping"],[601,1,"has taken a fork"],[601,1,"has taken a fork"],
+    [601,1,"is eating"],[601,3,"has taken a fork"],[601,3,"has taken a fork"],[601,3,"is eating"],
+    [602,2,"is thinking"],[602,4,"is thinking"],
+    [802,3,"is sleeping"],[802,1,"is sleeping"],[802,2,"has taken a fork"],[802,2,"has taken a fork"],
+    [802,2,"is eating"],[802,4,"has taken a fork"],[802,4,"has taken a fork"],[802,4,"is eating"],
+    [803,3,"is thinking"],[803,1,"is thinking"],
+    [1002,2,"is sleeping"],[1002,4,"is sleeping"],[1002,1,"has taken a fork"],[1002,1,"has taken a fork"],
+    [1002,1,"is eating"],[1002,3,"has taken a fork"],[1002,3,"has taken a fork"],[1002,3,"is eating"],
+    [1003,2,"is thinking"],[1003,4,"is thinking"],
+    [1202,1,"is sleeping"],[1202,3,"is sleeping"],[1202,4,"has taken a fork"],[1202,4,"has taken a fork"],
+    [1202,4,"is eating"]
+  ];
+  var N = 4;
+  var COLORS = ['#F38BA8','#A6E3A1','#89B4FA','#F9E2AF'];
+  var viz = buildTable(host, N, { centerLabel: 'elapsed' });
+  var idx = 0, timer = null, held = {};
+  var playBtn = document.getElementById('sim-play');
+  var resetBtn = document.getElementById('sim-reset');
+  var status = document.getElementById('sim-status');
+
+  function reset(){
+    clearTimeout(timer); timer = null; idx = 0; held = {};
+    viz.reset(); viz.center.textContent = '0 ms';
+    term.innerHTML = '<div class="tline"><span class="tline-hint">press play to start the simulation…</span></div>';
+    status.textContent = '0 ms elapsed';
+    playBtn.textContent = '▶ Play simulation';
+    playBtn.disabled = false;
+  }
+
+  function forkIndexFor(id){
+    /* philosopher id (1-based) holds left fork id-1 and right fork id%N */
+    var i = id - 1;
+    return [i, (i + 1) % N];
+  }
+
+  function apply(entry){
+    var ms = entry[0], id = entry[1], msg = entry[2], i = id - 1;
+    if (msg === 'has taken a fork'){
+      var pair = forkIndexFor(id);
+      held[id] = (held[id] || 0) + 1;
+      viz.setFork(pair[held[id] === 1 ? 0 : 1], true);
+      viz.setState(i, 'waiting', 'forks ' + held[id]);
+    } else if (msg === 'is eating'){
+      viz.setState(i, 'eating', 'eating');
+    } else if (msg === 'is sleeping'){
+      var pr = forkIndexFor(id);
+      viz.setFork(pr[0], false); viz.setFork(pr[1], false);
+      held[id] = 0;
+      viz.setState(i, 'sleeping', 'sleeping');
+    } else if (msg === 'is thinking'){
+      viz.setState(i, 'thinking', 'thinking');
+    }
+    viz.center.textContent = ms + ' ms';
+    status.textContent = ms + ' ms elapsed';
+
+    var line = document.createElement('div');
+    line.className = 'tline';
+    line.innerHTML = '<span class="tline-ms">' + ms + '</span>' +
+      '<span class="tline-id" style="color:' + COLORS[i] + '">' + id + '</span>' +
+      '<span class="tline-msg">' + msg + '</span>';
+    term.appendChild(line);
+    term.scrollTop = term.scrollHeight;
+  }
+
+  function step(){
+    if (idx === 0) term.innerHTML = '';
+    if (idx >= LOG.length){
+      var done = document.createElement('div');
+      done.className = 'tline';
+      done.innerHTML = '<span class="tline-hint">— everyone ate 3 times, simulation ended cleanly (exit 0) —</span>';
+      term.appendChild(done);
+      term.scrollTop = term.scrollHeight;
+      playBtn.textContent = '▶ Play simulation';
+      playBtn.disabled = false;
+      timer = null;
+      return;
+    }
+    var entry = LOG[idx];
+    apply(entry);
+    idx++;
+    var next = idx < LOG.length ? LOG[idx][0] : entry[0];
+    var delay = Math.max(18, Math.min(700, (next - entry[0]) * 0.75));
+    timer = setTimeout(step, delay);
+  }
+
+  playBtn.addEventListener('click', function(){
+    if (timer) return;
+    if (idx >= LOG.length) reset();
+    playBtn.textContent = '● Running…';
+    playBtn.disabled = true;
+    step();
+  });
+  resetBtn.addEventListener('click', reset);
+})();
+
+/* ================= MODULE 2 — ARCHITECTURE PICKER ================= */
+(function(){
+  var desc = document.getElementById('arch-desc-2');
+  if (!desc) return;
+  var comps = document.querySelectorAll('#module-2 .arch-component');
+  comps.forEach(function(c){
+    var pick = function(){
+      comps.forEach(function(x){ x.classList.remove('selected'); });
+      c.classList.add('selected');
+      desc.innerHTML = c.dataset.desc;
+    };
+    c.addEventListener('click', pick);
+    c.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+  });
+})();
+
+/* ================= MODULE 8 — QUESTION PICKER ================= */
+(function(){
+  var desc = document.getElementById('arch-desc-8');
+  if (!desc) return;
+  var qs = document.querySelectorAll('#module-8 .arch-component');
+  qs.forEach(function(c){
+    var pick = function(){
+      qs.forEach(function(x){ x.classList.remove('selected'); });
+      c.classList.add('selected');
+      desc.innerHTML = c.dataset.q;
+    };
+    c.addEventListener('click', pick);
+    c.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+  });
+})();
+
+/* ================= GROUP CHAT PLAYER (generic) ================= */
+(function(){
+  var AVATARS = {
+    main:{i:'M',c:'var(--color-actor-1)'}, p1:{i:'P1',c:'var(--color-actor-3)'},
+    p2:{i:'P2',c:'var(--color-actor-5)'}, p4:{i:'P4',c:'var(--color-actor-4)'},
+    mon:{i:'👁',c:'var(--color-actor-2)'}, prn:{i:'🖨',c:'var(--color-actor-5)'}
+  };
+  var states = {};
+
+  function setup(key){
+    var box = document.getElementById('chat-' + key);
+    if (!box) return null;
+    if (!states[key]){
+      states[key] = {
+        box: box,
+        msgs: Array.prototype.slice.call(box.querySelectorAll('.chat-message')),
+        typing: document.getElementById('typing-' + key),
+        avatar: document.getElementById('typing-avatar-' + key),
+        progress: document.getElementById('chat-progress-' + key),
+        i: 0, busy: false, loop: null
+      };
+    }
+    return states[key];
+  }
+
+  function updateProgress(s){
+    if (s.progress) s.progress.textContent = s.i + ' / ' + s.msgs.length;
+  }
+
+  function next(key, cb){
+    var s = setup(key);
+    if (!s || s.busy || s.i >= s.msgs.length){ if (cb) cb(true); return; }
+    s.busy = true;
+    var msg = s.msgs[s.i];
+    var who = AVATARS[msg.dataset.sender] || {i:'?',c:'var(--color-text-muted)'};
+    if (s.typing){
+      s.avatar.textContent = who.i;
+      s.avatar.style.background = who.c;
+      s.typing.style.display = 'flex';
+    }
+    setTimeout(function(){
+      if (s.typing) s.typing.style.display = 'none';
+      msg.style.display = 'flex';
+      s.i++;
+      updateProgress(s);
+      s.box.scrollTop = s.box.scrollHeight;
+      s.busy = false;
+      if (cb) cb(s.i >= s.msgs.length);
+    }, 620);
+  }
+
+  function reset(key){
+    var s = setup(key);
+    if (!s) return;
+    if (s.loop){ clearInterval(s.loop); s.loop = null; }
+    s.msgs.forEach(function(m){ m.style.display = 'none'; });
+    if (s.typing) s.typing.style.display = 'none';
+    s.i = 0; s.busy = false;
+    updateProgress(s);
+  }
+
+  document.querySelectorAll('[data-chat-next]').forEach(function(b){
+    b.addEventListener('click', function(){ next(b.dataset.chatNext); });
+  });
+  document.querySelectorAll('[data-chat-all]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var key = b.dataset.chatAll;
+      var s = setup(key);
+      if (!s || s.loop) return;
+      s.loop = setInterval(function(){
+        next(key, function(done){ if (done){ clearInterval(s.loop); s.loop = null; } });
+      }, 1150);
+      next(key);
+    });
+  });
+  document.querySelectorAll('[data-chat-reset]').forEach(function(b){
+    b.addEventListener('click', function(){ reset(b.dataset.chatReset); });
+  });
+
+  ['3','5'].forEach(function(k){ if (setup(k)) updateProgress(setup(k)); });
+})();
+
+/* ================= MODULE 4 — DEADLOCK STEPPER ================= */
+(function(){
+  var host = document.getElementById('viz-dl');
+  if (!host) return;
+  var N = 5;
+  var viz = buildTable(host, N, { centerLabel: 'strategy' });
+  var label = document.getElementById('dl-label');
+  var prog = document.getElementById('dl-progress');
+  var nextBtn = document.getElementById('dl-next');
+  var resetBtn = document.getElementById('dl-reset');
+  var mode = 'naive', step = 0;
+
+  /* Each step: array of [philoIndex, state, stateLabel], forks held, label text, tone */
+  var SCRIPTS = {
+    naive: [
+      { forks:[0,1,2,3,4], st:[['all','waiting','1 fork']],
+        text:'<strong>Step 1 — everyone reaches left.</strong> All five philosophers grab their left fork at the same instant. Every fork on the table is now held. So far nothing is wrong.', tone:'' },
+      { forks:[0,1,2,3,4], st:[['all','waiting','blocked']],
+        text:'<strong>Step 2 — everyone reaches right.</strong> Philosopher 1 wants the fork philosopher 5 is holding. Philosopher 2 wants philosopher 1\'s. And so on, all the way around the circle.', tone:'danger' },
+      { forks:[0,1,2,3,4], st:[['all','dead','DEADLOCK']],
+        text:'<strong>💀 Deadlock.</strong> Every thread is frozen inside <code>pthread_mutex_lock</code>, waiting for a fork whose holder is waiting for another fork. Nothing will ever move again. The program uses 0% CPU and prints nothing — it just hangs.', tone:'danger' }
+    ],
+    fixed: [
+      { forks:[1,3,0], st:[[0,'waiting','1 fork'],[1,'waiting','blocked'],[2,'waiting','1 fork'],[3,'waiting','blocked'],[4,'waiting','1 fork']],
+        text:'<strong>Step 1 — odd ids reach right, even ids reach left.</strong> Immediately there is contention: philosophers 1 and 2 both want fork 1. One wins, one waits. Same for 3 and 4 on fork 3. The perfect ring never forms.', tone:'' },
+      { forks:[1,3,0,2,4], st:[[0,'waiting','blocked'],[1,'waiting','blocked'],[2,'eating','eating'],[3,'waiting','blocked'],[4,'eating','eating']],
+        text:'<strong>Step 2 — the winners take their second fork.</strong> Philosophers 3 and 5 complete their pair and start eating. Philosopher 1 holds one fork but is blocked — that\'s fine, it\'s a normal wait, not a deadlock.', tone:'good' },
+      { forks:[], st:[[0,'eating','eating'],[1,'waiting','blocked'],[2,'sleeping','sleeping'],[3,'eating','eating'],[4,'sleeping','sleeping']],
+        text:'<strong>Step 3 — forks come back.</strong> 3 and 5 finish and release. Philosophers 1 and 4 immediately acquire their pairs and eat. The table keeps flowing.', tone:'good' },
+      { forks:[], st:[[0,'sleeping','sleeping'],[1,'eating','eating'],[2,'eating','eating'],[3,'sleeping','sleeping'],[4,'thinking','thinking']],
+        text:'<strong>✅ No deadlock, ever.</strong> One line — <code>if (philo->id % 2 == 0)</code> — makes the circular wait mathematically impossible. This is exactly what module 1\'s alternating log was showing you.', tone:'good' }
+    ]
+  };
+
+  function render(){
+    var script = SCRIPTS[mode];
+    viz.reset();
+    viz.center.textContent = mode === 'naive' ? 'all left' : 'odd/even';
+    prog.textContent = 'Step ' + step + ' / ' + script.length;
+    if (step === 0){
+      label.className = 'flow-step-label';
+      label.innerHTML = mode === 'naive'
+        ? 'Five philosophers, five forks, everyone reaching the same way. Press "Next step".'
+        : 'The real code: even-numbered philosophers reach left first, odd-numbered reach right first. Press "Next step".';
+      nextBtn.disabled = false;
+      return;
+    }
+    var s = script[step - 1];
+    s.forks.forEach(function(f){ viz.setFork(f, true); });
+    s.st.forEach(function(entry){
+      if (entry[0] === 'all'){
+        for (var i = 0; i < N; i++) viz.setState(i, entry[1], entry[2]);
+      } else {
+        viz.setState(entry[0], entry[1], entry[2]);
+      }
+    });
+    label.className = 'flow-step-label' + (s.tone ? ' ' + s.tone : '');
+    label.innerHTML = s.text;
+    nextBtn.disabled = step >= script.length;
+  }
+
+  nextBtn.addEventListener('click', function(){
+    if (step < SCRIPTS[mode].length){ step++; render(); }
+  });
+  resetBtn.addEventListener('click', function(){ step = 0; render(); });
+  document.querySelectorAll('[data-dl-mode]').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('[data-dl-mode]').forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      mode = t.dataset.dlMode; step = 0; render();
+    });
+  });
+  render();
+})();
+
+/* ================= MODULE 5 — DEATH DATA FLOW ================= */
+(function(){
+  var wrap = document.getElementById('flow-actors-5');
+  if (!wrap) return;
+  var packet = document.getElementById('flow-packet-5');
+  var label = document.getElementById('flow-label-5');
+  var prog = document.getElementById('flow-progress-5');
+  var nextBtn = document.getElementById('flow-next-5');
+  var resetBtn = document.getElementById('flow-reset-5');
+
+  var STEPS = [
+    { on:'fa-philo', text:'<strong>1 — A meal begins.</strong> Philosopher 3 takes both forks and calls <code>philo_eat()</code>, which writes the current time into <code>last_meal_ms</code> and bumps <code>meals_eaten</code>.', tone:'' },
+    { on:'fa-meal', from:'fa-philo', to:'fa-meal', text:'<strong>2 — Written under lock.</strong> Both fields live behind <code>meal_mtx</code>. The philosopher takes it, writes two values, releases. Two instructions inside the critical section — no longer.', tone:'' },
+    { on:'fa-mon', from:'fa-meal', to:'fa-mon', text:'<strong>3 — The monitor reads it.</strong> One millisecond later, <code>is_dead()</code> takes the same <code>meal_mtx</code> and copies out the timestamp. It never reads the field directly.', tone:'' },
+    { on:'fa-mon', text:'<strong>4 — Subtraction.</strong> <code>elapsed = get_time_ms() - philo->last_meal_ms</code>. If that exceeds <code>t_die</code>, this philosopher has starved. No message was sent — the monitor <em>inferred</em> the death from a number.', tone:'' },
+    { on:'fa-mon', text:'<strong>5 — But first, an exemption.</strong> If this philosopher already hit their <code>must_eat</code> target, <code>is_dead()</code> returns 0 regardless. Someone who is finished cannot starve — they\'ve simply left the table.', tone:'' },
+    { on:'fa-stop', from:'fa-mon', to:'fa-stop', text:'<strong>6 — Raise the flag.</strong> <code>print_death()</code> takes <code>print_mtx</code> first, then <code>stop_mtx</code>, sets <code>stop = 1</code>, and prints the death line. That lock order is deliberate and must never be reversed.', tone:'danger' },
+    { on:'fa-all', from:'fa-stop', to:'fa-all', text:'<strong>7 — Everyone finds out.</strong> No broadcast, no signal. Each philosopher is already calling <code>check_stop()</code> constantly — in the wait loop, in the main loop, before every print. They discover the flag on their own within microseconds.', tone:'danger' },
+    { on:'fa-all', text:'<strong>8 — Graceful shutdown.</strong> Every loop exits, every fork is released, every thread returns. <code>pthread_join</code> collects all N+1 back in <code>main</code>, and only then does <code>destroy_data()</code> free the memory. One integer coordinated the entire shutdown.', tone:'good' }
+  ];
+
+  var step = 0;
+
+  function animatePacket(fromId, toId){
+    var a = document.getElementById(fromId), b = document.getElementById(toId);
+    if (!a || !b) return;
+    var base = wrap.getBoundingClientRect();
+    var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+    var x1 = ra.left - base.left + ra.width/2 - 7;
+    var x2 = rb.left - base.left + rb.width/2 - 7;
+    var y1 = ra.top - base.top + 24;
+    var y2 = rb.top - base.top + 24;
+    packet.style.transition = 'none';
+    packet.style.transform = 'translate(' + x1 + 'px,' + y1 + 'px)';
+    packet.style.opacity = '0';
+    requestAnimationFrame(function(){
+      packet.style.opacity = '1';
+      packet.style.transition = 'transform 700ms var(--ease-in-out), opacity 200ms ease';
+      requestAnimationFrame(function(){
+        packet.style.transform = 'translate(' + x2 + 'px,' + y2 + 'px)';
+      });
+      setTimeout(function(){ packet.style.opacity = '0'; }, 780);
+    });
+  }
+
+  function render(){
+    prog.textContent = 'Step ' + step + ' / ' + STEPS.length;
+    wrap.querySelectorAll('.flow-actor').forEach(function(a){ a.classList.remove('active','blocked'); });
+    if (step === 0){
+      label.className = 'flow-step-label';
+      label.innerHTML = 'Press "Next step" to follow a death from timestamp to shutdown.';
+      nextBtn.disabled = false;
+      return;
+    }
+    var s = STEPS[step - 1];
+    var on = document.getElementById(s.on);
+    if (on) on.classList.add('active');
+    if (s.from && s.to) animatePacket(s.from, s.to);
+    label.className = 'flow-step-label' + (s.tone ? ' ' + s.tone : '');
+    label.innerHTML = s.text;
+    nextBtn.disabled = step >= STEPS.length;
+  }
+
+  nextBtn.addEventListener('click', function(){ if (step < STEPS.length){ step++; render(); } });
+  resetBtn.addEventListener('click', function(){ step = 0; render(); });
+  render();
+})();
+
+/* ================= MODULE 6 — FAIRNESS SIMULATOR ================= */
+(function(){
+  var host = document.getElementById('fair-bars');
+  if (!host) return;
+  var label = document.getElementById('fair-label');
+  var statusEl = document.getElementById('fair-status');
+  var playBtn = document.getElementById('fair-play');
+  var resetBtn = document.getElementById('fair-reset');
+
+  var N = 5, T_EAT = 100, T_SLEEP = 50, T_DIE = 400, TICK = 10, LIMIT = 2000;
+  var mode = 'greedy', timer = null;
+  var COLORS = ['var(--color-actor-1)','var(--color-actor-2)','var(--color-actor-3)','var(--color-actor-4)','var(--color-actor-5)'];
+
+  /* build bars */
+  host.innerHTML = '';
+  var rows = [];
+  for (var i = 0; i < N; i++){
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3)';
+    row.innerHTML =
+      '<span style="font-family:var(--font-display);font-weight:700;width:22px;flex-shrink:0;color:' + COLORS[i] + '">' + (i+1) + '</span>' +
+      '<div style="flex:1;height:22px;background:var(--color-bg-warm);border-radius:var(--radius-full);overflow:hidden;position:relative">' +
+        '<div data-bar style="height:100%;width:0%;background:var(--color-success);border-radius:var(--radius-full);transition:width 60ms linear,background 200ms ease"></div>' +
+      '</div>' +
+      '<span data-meals style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);width:74px;text-align:right;flex-shrink:0">0 meals</span>';
+    host.appendChild(row);
+    rows.push({ bar: row.querySelector('[data-bar]'), meals: row.querySelector('[data-meals]') });
+  }
+  var caption = document.createElement('p');
+  caption.style.cssText = 'font-size:var(--text-xs);color:var(--color-text-muted);margin:0 0 var(--space-4);max-width:none';
+  caption.textContent = 'Bar = hunger (time since last meal, out of ' + T_DIE + 'ms). Full bar = death.';
+  host.appendChild(caption);
+
+  var P, forks, now, order;
+
+  function init(){
+    now = 0;
+    forks = new Array(N).fill(-1);
+    order = [];
+    P = [];
+    for (var i = 0; i < N; i++){
+      order.push(i);
+      var id = i + 1, left = i, right = (i + 1) % N;
+      P.push({ i:i, id:id, status:'thinking', lastMeal:0, until:0, meals:0, got:0, dead:false,
+               order: (id % 2 === 0) ? [left, right] : [right, left] });
+    }
+  }
+
+  /* The real code's rule, transcribed: yield if either neighbour is hungrier than me. */
+  function shouldWait(p){
+    var left = P[(p.i - 1 + N) % N];
+    var right = P[(p.i + 1) % N];
+    if (p.lastMeal > left.lastMeal) return true;
+    if (p.lastMeal > right.lastMeal) return true;
+    return false;
+  }
+
+  function release(p){
+    p.order.forEach(function(f){ if (forks[f] === p.i) forks[f] = -1; });
+    p.got = 0;
+  }
+
+  /* The OS gives no ordering guarantee — shuffle who gets looked at each tick. */
+  function shuffle(){
+    for (var a = order.length - 1; a > 0; a--){
+      var b = Math.floor(Math.random() * (a + 1));
+      var t = order[a]; order[a] = order[b]; order[b] = t;
+    }
+  }
+
+  function tick(){
+    shuffle();
+    for (var n = 0; n < N; n++){
+      var p = P[order[n]];
+      if (p.dead) continue;
+      if (now - p.lastMeal > T_DIE){ p.dead = true; p.status = 'dead'; return p; }
+      if (p.status === 'eating'){
+        if (now >= p.until){ release(p); p.status = 'sleeping'; p.until = now + T_SLEEP; }
+        continue;
+      }
+      if (p.status === 'sleeping'){
+        if (now >= p.until) p.status = 'thinking';
+        continue;
+      }
+      /* thinking or waiting — the fairness gate only applies before the first fork */
+      if (p.got === 0 && mode === 'fair' && shouldWait(p)){ p.status = 'waiting'; continue; }
+      var want = p.order[p.got];
+      if (forks[want] === -1){ forks[want] = p.i; p.got++; }
+      if (p.got === 2){
+        p.status = 'eating'; p.lastMeal = now; p.meals++; p.until = now + T_EAT;
+      } else {
+        p.status = 'waiting';
+      }
+    }
+    return null;
+  }
+
+  /* Headless run for the batch button — same rules, no rendering. */
+  function runHeadless(){
+    init();
+    while (now < LIMIT){
+      now += TICK;
+      if (tick()) return true;
+    }
+    return false;
+  }
+
+  function paint(){
+    for (var i = 0; i < N; i++){
+      var p = P[i];
+      var hunger = Math.min(1, (now - p.lastMeal) / T_DIE);
+      var bar = rows[i].bar;
+      bar.style.width = (hunger * 100) + '%';
+      if (p.dead) bar.style.background = 'var(--color-error)';
+      else if (hunger > 0.75) bar.style.background = 'var(--color-accent)';
+      else if (hunger > 0.45) bar.style.background = 'var(--color-actor-4)';
+      else bar.style.background = 'var(--color-success)';
+      rows[i].meals.textContent = p.meals + ' meal' + (p.meals === 1 ? '' : 's');
+    }
+    statusEl.textContent = 't = ' + now + ' ms';
+  }
+
+  var batchBtn = document.getElementById('fair-batch');
+
+  function busy(on){
+    playBtn.disabled = on; batchBtn.disabled = on;
+    playBtn.textContent = on ? '● Running…' : '▶ Run once';
+  }
+
+  function stop(msg, tone){
+    clearInterval(timer); timer = null;
+    label.className = 'flow-step-label' + (tone ? ' ' + tone : '');
+    label.innerHTML = msg;
+    busy(false);
+  }
+
+  function run(){
+    if (timer) return;
+    init(); paint();
+    busy(true);
+    label.className = 'flow-step-label';
+    label.innerHTML = mode === 'greedy'
+      ? 'Greedy: each philosopher reaches the moment a fork is free, and keeps the first one while queuing for the second…'
+      : 'Fair: each philosopher checks both neighbours first and holds back if either is hungrier…';
+    timer = setInterval(function(){
+      now += TICK;
+      var died = tick();
+      paint();
+      if (died){
+        var others = P.filter(function(x){ return !x.dead; }).map(function(x){ return x.meals; });
+        stop('<strong>💀 Philosopher ' + died.id + ' starved at ' + now + 'ms.</strong> ' +
+          'Nothing deadlocked — the others ate ' + others.join(', ') + ' times and the log kept scrolling the whole way. ' +
+          'That is <strong>starvation</strong>: a perfectly healthy-looking program with one participant quietly left behind.', 'danger');
+        return;
+      }
+      if (now >= LIMIT){
+        var counts = P.map(function(x){ return x.meals; });
+        var spread = Math.max.apply(null, counts) - Math.min.apply(null, counts);
+        stop('<strong>✅ ' + LIMIT + 'ms, nobody died.</strong> Meal counts: ' + counts.join(', ') +
+          ' — a spread of ' + spread + '. ' + (mode === 'greedy'
+            ? 'This time it got lucky. Press <strong>Run 400 times</strong> to see how often it doesn\'t.'
+            : '<code>should_wait()</code> keeps everyone within a meal of each other, so hunger never builds toward ' + T_DIE + 'ms.'), 'good');
+      }
+    }, 24);
+  }
+
+  function batch(){
+    if (timer) return;
+    busy(true);
+    label.className = 'flow-step-label';
+    label.innerHTML = 'Running 400 simulations…';
+    setTimeout(function(){
+      var TRIALS = 400, deaths = 0, victims = {};
+      for (var t = 0; t < TRIALS; t++){
+        if (runHeadless()){
+          deaths++;
+          var v = P.filter(function(x){ return x.dead; })[0];
+          if (v) victims[v.id] = (victims[v.id] || 0) + 1;
+        }
+      }
+      var pct = Math.round(deaths / TRIALS * 100);
+      paint();
+      busy(false);
+      if (deaths === 0){
+        label.className = 'flow-step-label good';
+        label.innerHTML = '<strong>✅ 400 runs, 0 deaths.</strong> Not one philosopher starved in any run. ' +
+          'The fairness gate isn\'t reducing the odds of starvation — it removes the possibility, because a philosopher who has eaten most recently always yields to one who hasn\'t.';
+      } else {
+        var who = Object.keys(victims).sort(function(a,b){ return victims[b]-victims[a]; })
+          .map(function(k){ return 'P' + k + ' (' + victims[k] + '×)'; }).join(', ');
+        label.className = 'flow-step-label danger';
+        label.innerHTML = '<strong>💀 ' + deaths + ' deaths in 400 runs — ' + pct + '%.</strong> ' +
+          'Victims: ' + who + '. Same code, same parameters, different outcome every time. ' +
+          'A test suite running this <em>once</em> passes ' + (100 - pct) + '% of the time. Now switch to the fair strategy and press this again.';
+      }
+    }, 40);
+  }
+
+  function reset(){
+    clearInterval(timer); timer = null;
+    init(); paint();
+    busy(false);
+    label.className = 'flow-step-label';
+    label.innerHTML = 'Press run to simulate 5 philosophers for ' + LIMIT + ' milliseconds. ' +
+      'Parameters: eat ' + T_EAT + 'ms, sleep ' + T_SLEEP + 'ms, die after ' + T_DIE + 'ms without food.';
+    statusEl.textContent = 't = 0 ms';
+  }
+
+  playBtn.addEventListener('click', run);
+  batchBtn.addEventListener('click', batch);
+  resetBtn.addEventListener('click', reset);
+  document.querySelectorAll('[data-fair-mode]').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('[data-fair-mode]').forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      mode = t.dataset.fairMode;
+      reset();
+    });
+  });
+  reset();
+})();
+
+/* ================= MODULE 7 — BUG CHALLENGE ================= */
+(function(){
+  var box = document.getElementById('bug-code-1');
+  var feedback = document.getElementById('bug-feedback-1');
+  if (!box || !feedback) return;
+  var solved = false;
+
+  box.querySelectorAll('.bug-line').forEach(function(line){
+    line.addEventListener('click', function(){
+      if (solved) return;
+      if (line.dataset.correct === 'true'){
+        solved = true;
+        line.classList.add('correct');
+        feedback.className = 'bug-feedback show success';
+        feedback.innerHTML = '<strong>Found it. Line 79.</strong> The line above announces <code>"is sleeping"</code>, ' +
+          'but <code>usleep(1000)</code> sleeps for 1000 <em>microseconds</em> — one millisecond — not <code>time_to_sleep</code>. ' +
+          'Compare it with <code>philo_eat()</code> on line 54, which correctly writes <code>usleep(philo->data->t_eat * 1000)</code>. ' +
+          'The fix is <code>usleep(philo->data->t_sleep * 1000);</code> — scroll on to see the proof in the timestamps.';
+      } else {
+        line.classList.add('incorrect');
+        feedback.className = 'bug-feedback show error';
+        feedback.innerHTML = 'Not that one — that line is correct. Hint: the philosophers <em>announce</em> four activities. Three of them take the time the user asked for. One doesn\'t.';
+        setTimeout(function(){
+          line.classList.remove('incorrect');
+          if (!solved) feedback.className = 'bug-feedback';
+        }, 2600);
+      }
+    });
+  });
+})();
+
+})();
+</script>
+</body>
+</html>
